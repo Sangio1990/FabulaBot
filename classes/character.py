@@ -115,8 +115,9 @@ class Character:
                 if self.inventory[i].quantity > 1:
                     items += f" ({self.inventory[i].quantity})"
 
+        traits = self.traits if self.traits.__len__() > 0 else "Nessun tratto."
         return f"> **Nome**: {self.name}" + \
-            f"\n> **Tratti**: {self.traits if self.traits.__len__() > 0 else "Nessun tratto."}" + \
+            f"\n> **Tratti**: {traits}" + \
             f"\n> {legami}" + \
             f"\n> **Punti fabula**: {self.fp}" + \
             f"\n> **Punti exp**: {self.xp}" + \
