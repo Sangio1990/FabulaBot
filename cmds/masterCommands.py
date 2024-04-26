@@ -53,6 +53,7 @@ async def remove_item(ctx: lightbulb.SlashContext) -> None:
         result = "Non ha oggetti da eliminare."
     await ctx.respond(result)
 
+
 @plugin.command
 @lightbulb.option("zenit", "Quanti zenit vuoi aggiungere?", type=int, required=True)
 @lightbulb.option("menzione", "Menziona il giocatore a cui assegnare i zenit", type=str, required=True)
@@ -64,6 +65,7 @@ async def add_zenit(ctx: lightbulb.SlashContext) -> None:
     result = char.add_zenit(ctx.options.zenit)
     db.save_character(char, ctx.user.id)
     await ctx.respond(result)
+
 
 @plugin.command
 @lightbulb.option("zenit", "Quanti zenit vuoi aggiungere?", type=int, required=True)
@@ -77,6 +79,7 @@ async def add_zenit(ctx: lightbulb.SlashContext) -> None:
     db.save_character(char, ctx.user.id)
     await ctx.respond(result)
 
+
 @plugin.command
 @lightbulb.option("menzione", "Menziona il giocatore a cui assegnare il punto fabula", type=str, required=True)
 @lightbulb.option("quantita", "Vuoi assegnarne più di uno?", type=int, required=False)
@@ -88,6 +91,7 @@ async def add_fabula(ctx: lightbulb.SlashContext) -> None:
     result = char.add_fabula(ctx.options.quantita if ctx.options.quantita is not None else 1)
     db.save_character(char, ctx.user.id)
     await ctx.respond(result)
+
 
 @plugin.command
 @lightbulb.option("menzione", "Menziona il giocatore a cui rimuovere il punto fabula", type=str, required=True)

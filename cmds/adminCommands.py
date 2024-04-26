@@ -7,6 +7,7 @@ plugin = lightbulb.Plugin(name="Comandi Admin", description="Comandi disponibili
 plugin.add_checks(lightbulb.checks.has_roles(chosen_region[ADMIN_ROLE]))
 db = UtilsDB()
 
+
 def load(bot: lightbulb.BotApp):
     bot.add_plugin(plugin)
 

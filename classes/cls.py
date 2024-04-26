@@ -7,10 +7,8 @@ class Cls:
         Initializes a new instance of the Cls class.
 
         Args:
-        class_id (int): The unique identifier for the class.
         name (str): The name of the class.
         lvl (int): The level of the class.
-        discord_id (int): The Discord ID associated with the class.
 
         Returns:
         None

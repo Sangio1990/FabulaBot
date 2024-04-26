@@ -89,7 +89,8 @@ class Character:
 
         Returns:
         - str
-            A string representing the character
+            A string representing the character including character's name, traits, bonds, fabula points, experience points,
+            inventory, inventory points, zenit, characteristics, hit points, mind points, and classes.
         """
         legami = "**Legami:**"
         if self.bonds.__len__() == 0:
@@ -137,7 +138,11 @@ class Character:
         - bond_level (int): The level of the bond.
 
         Returns:
-        - str
+        - str: A message indicating the result of adding the bond.
+
+        This method adds a bond to the character with the specified destination, description, and level.
+        If the bond with the specified destination already exists, its description and level are updated.
+        The method returns a success message if the bond is added or updated, or an error message if the maximum number of bonds is reached.
         """
 
         bond_name = bond_name.lower().capitalize()
@@ -166,6 +171,24 @@ class Character:
         return f"Nessun legame con {bond_name} trovato"
 
     def level_up(self, class_name: str) -> (str, bool):
+        """
+        Increases the level of the character for the specified class and updates related attributes.
+
+        Parameters:
+        - class_name (str): The name of the class for which the character's level is to be increased.
+
+        Returns:
+        - tuple (str, bool): A tuple containing a message indicating the result of the level increase and a boolean value
+          indicating whether the level increase was successful.
+
+        This method checks if the character has sufficient experience points to increase the level for the specified class.
+        If the character has enough experience points, the method decreases the experience points by 10, increases the hit points
+        and mind points by 1, and either adds the specified class to the character's list of classes with level 1 or increases
+        the level of the existing class by 1. The method returns a success message and a boolean value indicating the success
+        of the level increase, or an error message if the character does not have enough experience points or has already
+        reached the maximum level for the specified class.
+        """
+
         if self.xp < 10:
             return "Punti esperienza insufficienti, ne servono 10 per aumentare il livello.", False
         else:
@@ -187,6 +210,22 @@ class Character:
                             return f"Hai già raggiunto il livello 10 per la classe {cls.name}.", False
 
     def add_bonus(self, bonus: str):
+        """
+        Increases the specified bonus attribute by 5.
+
+        Parameters:
+        - bonus (str): The bonus attribute to be increased. It can be one of the following:
+            - "PV": Hit Points
+            - "PM": Mind Points
+            - "PI": Inventory Points
+
+        Returns:
+        - str: A message indicating the success of increasing the bonus attribute.
+
+        This method increases the specified bonus attribute by 5. It takes a string parameter representing the bonus attribute
+        and uses a match statement to determine which attribute to increase. After increasing the attribute, it returns a
+        success message indicating the attribute has been increased.
+        """
         match bonus:
             case "PV":
                 self.hp += 5
@@ -199,6 +238,20 @@ class Character:
                 return "Punti inventario aumentati con successo."
 
     def buy_item(self, item_name: str, item_description: str, item_price: int) -> str:
+        """
+        Buys an item and adds it to the character's inventory.
+
+        Parameters:
+        - item_name (str): The name of the item to be bought.
+        - item_description (str): The description of the item to be bought.
+        - item_price (int): The price of the item to be bought.
+
+        Returns:
+        - str: A message indicating the result of the item purchase.
+
+        This method checks if the character has enough zenit to buy the item. If the character has enough zenit, it decreases the zenit by the item price and adds the item to the character's inventory. If the item already exists in the inventory, it increases the quantity of the item. The method returns a success message if the item is bought and added to the inventory, or an error message if the character does not have enough zenit.
+        """
+
         if self.zenit < item_price:
             return "Non hai abbastanza zenit."
         else:
@@ -216,6 +269,21 @@ class Character:
             return "Oggetto acquistato con successo."
 
     def sell_item(self, item_name: str) -> str:
+        """
+        Sells the specified item from the character's inventory and updates the character's zenit.
+
+        Parameters:
+        - item_name (str): The name of the item to be sold.
+
+        Returns:
+        - str: A message indicating the result of the item sale.
+
+        This method checks if the character has the specified item in the inventory.
+        If the item is found, it checks if the item is sellable.
+        If the item is sellable and its quantity is 1, the method adds half of the item's value to the character's zenit and removes the item from the inventory.
+        If the item is sellable and its quantity is greater than 1, the method decreases the item's quantity by 1 and adds half of the item's value to the character's zenit. If the item is not sellable, the method returns an error message. If the item is not found in the inventory, the method returns a message indicating that the item was not found.
+        """
+
         if self.inventory.__len__() == 0:
             return "Non hai oggetti da vendere."
         else:
@@ -236,6 +304,25 @@ class Character:
             return "Oggetto non trovato."
 
     def increase_stat(self, stat: str) -> str:
+        """
+        Increases the specified character attribute based on the provided stat.
+
+        Parameters:
+        - stat (str): The attribute to be increased. It can be one of the following:
+            - "Destrezza": Dexterity attribute
+            - "Vigore": Vigor attribute
+            - "Intuito": Intuition attribute
+            - "Volontà": Willpower attribute
+
+        Returns:
+        - str: A message indicating the success of increasing the specified attribute.
+
+        This method increases the specified character attribute based on the provided stat.
+        It uses a match statement to determine which attribute to increase and applies the corresponding logic.
+        After increasing the attribute, it returns a message indicating the attribute has been increased.
+        If the provided stat does not match any valid attribute, it returns a message indicating that the stat is not valid.
+        """
+
         match stat:
             case "Destrezza":
                 self.dex += 2
@@ -255,6 +342,21 @@ class Character:
         return "Stat non valida."
 
     def add_item(self, item):
+        """
+        Adds an item to the character's inventory or increases the quantity if the item already exists.
+
+        Parameters:
+        - item: The item to be added to the inventory. It should be an instance of the Item class.
+
+        Returns:
+        - str: A message indicating the result of adding the item to the inventory.
+
+        This method checks if the specified item already exists in the character's inventory.
+        If the item exists, it increases the quantity of the existing item.
+        If the item does not exist, it adds the item to the inventory.
+        The method returns a success message indicating that the item has been added or its quantity has been increased.
+        """
+
         for i in self.inventory:
             if i.name == item.name:
                 i.quantity += item.quantity
@@ -263,6 +365,22 @@ class Character:
         return f"{item.name} aggiunto con successo."
 
     def delete_item(self, item: str) -> str:
+        """
+        Removes the specified item from the character's inventory and updates the quantity if the item exists.
+
+        Parameters:
+        - item (str): The name of the item to be removed from the inventory.
+
+        Returns:
+        - str: A message indicating the result of the item removal.
+
+        This method checks if the specified item exists in the character's inventory.
+        If the item is found, it checks the quantity of the item.
+        If the quantity is 1, the method removes the item from the inventory.
+        If the quantity is greater than 1, the method decreases the item's quantity by 1.
+        If the item is not found in the inventory, the method returns a message indicating that the item was not found.
+        """
+
         if self.inventory.__len__() == 0:
             return "Non hai oggetti da eliminare."
         else:
@@ -278,10 +396,35 @@ class Character:
             return f"Oggetto {item} non trovato."
 
     def add_zenit(self, zenit: int) -> str:
+        """
+            Adds a specified number of zenit to the character.
+
+            Parameters:
+            - zenit (int): The number of zenit to add to the character.
+
+            Returns:
+            - str: A confirmation message indicating the number of zenit successfully added.
+            """
+
         self.zenit += zenit
         return f"{zenit} zenit aggiunti con successo."
 
     def remove_zenit(self, zenit: int) -> str:
+        """
+        Removes the specified amount of zenit from the character's zenit balance.
+
+        Parameters:
+        - zenit (int): The amount of zenit to be removed from the character's balance.
+
+        Returns:
+        - str: A message indicating the result of the zenit removal.
+
+        This method checks if the specified amount of zenit is available in the character's balance.
+        If the character has enough zenit, the method subtracts the specified amount from the character's balance
+        and returns a success message indicating the amount of zenit removed.
+        If the character does not have enough zenit, the method returns an error message indicating the insufficient zenit balance.
+        """
+
         if zenit > self.zenit:
             return "Il giocatore non possiede abbastanza zenit."
         else:
@@ -289,10 +432,34 @@ class Character:
             return f"{zenit} zenit rimossi con successo."
 
     def add_fabula(self, quantity: int) -> str:
+        """
+        Adds a specified quantity of fabula points to the character.
+
+        Parameters:
+        - quantity (int): The quantity of fabula points to add to the character.
+
+        Returns:
+        - str: A confirmation message indicating that the fabula points have been successfully added.
+        """
+
         self.fp += quantity
         return "Punti fabula aggiunto con successo."
 
     def remove_fabula(self, quantity: int) -> str:
+        """
+        Removes the specified quantity of fabula points from the character's balance.
+
+        Parameters:
+        - quantity (int): The amount of fabula points to be removed from the character's balance.
+
+        Returns:
+        - str: A message indicating the result of the fabula points removal.
+
+        This method checks if the specified amount of fabula points is available in the character's balance.
+        If the character has enough fabula points, the method subtracts the specified amount from the character's balance
+        and returns a success message indicating the amount of fabula points removed.
+        If the character does not have enough fabula points, the method returns an error message indicating the insufficient fabula points balance.
+        """
         if quantity > self.fp:
             return "Il giocatore non possiede abbastanza punti fabula."
         else:
@@ -305,12 +472,12 @@ def check_doable(v: lightbulb.SlashContext.options):
     Verifies if the input data is valid and, if so, creates the character.
 
     Parameters:
-    - v: lightbulb.SlashContext.options
-        Object containing the options of the slash command
+    - v (lightbulb.SlashContext.options): Object containing the options of the slash command.
 
     Returns:
-    - str
-        Confirmation message or error message related to the character creation
+    - str: A confirmation message or error message related to the character creation.
+
+    This function takes a lightbulb.SlashContext.options object as input and verifies if the input data is valid for creating a character. It extracts the dexterity, vigor, intuition, and willpower values from the input object and checks if they are valid dice values (6, 8, or 10). If the values are valid, it calls the new_character function to create a new character with the specified values and returns a confirmation message. If the values are not valid or not numbers, it returns an error message.
     """
     try:
         dex = int(v.destrezza)
@@ -339,6 +506,8 @@ def new_character(name: str, dex: int, vig: int, intu: int, will: int):
 
     Returns:
     - Character: A new Character object initialized with the specified values, derived statistics, and fixed statistics.
+
+    This function initializes a new Character object with the specified values for the character's name, dexterity, vigor, intuition, and willpower. It also calculates the derived statistics for hit points and mind points based on the vigor and willpower values. The function returns a new Character object initialized with the specified values and derived/fixed statistics.
     """
     return Character(
         0000,
