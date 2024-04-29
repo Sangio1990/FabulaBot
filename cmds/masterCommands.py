@@ -1,6 +1,5 @@
 import lightbulb
 
-from classes.character import Character
 from classes.item import Item
 from db.utilsDB import UtilsDB
 from secretsData.data import *
@@ -104,3 +103,12 @@ async def remove_fabula(ctx: lightbulb.SlashContext) -> None:
     result = char.remove_fabula(ctx.options.quantita if ctx.options.quantita is not None else 1)
     db.save_character(char, ctx.user.id)
     await ctx.respond(result)
+
+@plugin.command
+@lightbulb.option("menzione", "Menziona il giocatore di cui vedere la scheda")
+@lightbulb.command("vedischeda", "Vedi la scheda di un personaggio")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def view_character(ctx: lightbulb.SlashContext) -> None:
+    mentioned_id = clear_id_from_mention(ctx.options.menzione)
+    char = db.load_character(mentioned_id)
+    await ctx.respond(char)
