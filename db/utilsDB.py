@@ -94,10 +94,43 @@ class UtilsDB:
         character.inventory = json.dumps([item.to_json() for item in character.inventory])
 
         if new:
-            self.c.execute(save_new_character_query_builder(character, user_id))
+            self.c.execute(save_new_character_query, (
+                user_id,
+                character.name,
+                character.dex,
+                character.vig,
+                character.intu,
+                character.will,
+                character.hp,
+                character.mp,
+                character.ip,
+                character.xp,
+                character.fp,
+                character.zenit,
+                character.classes,
+                character.inventory,
+                character.traits,
+                character.bonds
+            ))
         else:
-            self.c.execute(save_character_query_builder(character, user_id))
-        self.connection.commit()
+            self.c.execute(save_character_query, (
+                character.name,
+                character.dex,
+                character.vig,
+                character.intu,
+                character.will,
+                character.hp,
+                character.mp,
+                character.ip,
+                character.xp,
+                character.fp,
+                character.zenit,
+                character.classes,
+                character.inventory,
+                character.traits,
+                character.bonds,
+                user_id))
+            self.connection.commit()
 
     def load_character(self, user_id: int):
         """
@@ -147,7 +180,28 @@ class UtilsDB:
         Finally, it commits the changes to the database.
         If no character is found with the given user ID, it raises a NoCharFound exception.
         """
-        char = self.load_character(user_id)
-        self.c.execute(move_character_to_trash_query_builder(char))
+        character = self.load_character(user_id)
+        character.classes = json.dumps([cls.to_json() for cls in character.classes])
+        character.bonds = json.dumps([bond.to_json() for bond in character.bonds])
+        character.inventory = json.dumps([item.to_json() for item in character.inventory])
+
+        self.c.execute(move_character_to_trash_query, (
+            character.discord_id,
+            character.name,
+            character.dex,
+            character.vig,
+            character.intu,
+            character.will,
+            character.hp,
+            character.mp,
+            character.ip,
+            character.xp,
+            character.fp,
+            character.zenit,
+            character.classes,
+            character.inventory,
+            character.traits,
+            character.bonds
+        ))
         self.c.execute(delete_character_query_builder(user_id))
         self.connection.commit()

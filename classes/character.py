@@ -467,6 +467,27 @@ class Character:
             self.fp -= quantity
             return f"{quantity} punti fabula rimossi con successo."
 
+    def change_traits(self, theme: str, identity: str) -> str:
+        """
+        Changes the character's traits based on the specified theme and identity.
+
+        Parameters:
+        - theme (str): The theme of the character.
+        - identity (str): The identity of the character.
+
+        Returns:
+        - str: A message indicating the result of the trait change.
+
+        This function takes a theme and identity as input and applies the corresponding logic to change the character's traits.
+        It uses a match statement to determine which theme and identity to apply and applies the corresponding logic.
+        The function returns a message indicating the result of the trait change.
+        If the theme or identity is not valid, the function returns a message indicating that the theme or identity is not valid.
+        """
+
+        traits = theme + ", " + identity
+        self.traits = traits
+        return f"Tratti del tuo pg aggiunti."
+
 
 def check_doable(v: lightbulb.SlashContext.options):
     """

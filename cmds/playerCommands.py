@@ -169,3 +169,15 @@ async def delete_item(ctx: lightbulb.SlashContext) -> None:
     result = char.delete_item(ctx.options.oggetto)
     db.save_character(char, ctx.user.id)
     await ctx.respond(result)
+
+
+@plugin.command
+@lightbulb.option("identita", "Piccola frase che identifica il tuo personaggio", type=str, required=True)
+@lightbulb.option("tema", "Una parola che descriva il tema del tuo personaggio", type=str, required=True)
+@lightbulb.command("tratti", "Che tratti ha il tuo personaggio?")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def traits(ctx: lightbulb.SlashContext) -> None:
+    char = db.load_character(ctx.user.id)
+    result = char.change_traits(ctx.options.identita, ctx.options.tema)
+    db.save_character(char, ctx.user.id)
+    await ctx.respond(result)

@@ -20,7 +20,8 @@ bot = lightbulb.BotApp(
     default_enabled_guilds=chosen_region[GUILD]
 )
 
-bot.load_extensions("cmds.userCommands", "cmds.adminCommands", "cmds.masterCommands", "cmds.playerCommands")
+bot.load_extensions("cmds.userCommands", "cmds.adminCommands", "cmds.masterCommands", "cmds.playerCommands",
+                    "cmds.sessionscheduler")
 
 
 # Define a listener for handling command errors in the bot

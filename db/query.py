@@ -102,66 +102,37 @@ def delete_character_query_builder(user_id):
 
 
 # Saving Query
-def save_new_character_query_builder(character, user_id):
-    return f""" INSERT INTO characters VALUES(
-                {user_id}, 
-                '{character.name}', 
-                {character.dex}, 
-                {character.vig}, 
-                {character.intu}, 
-                {character.will},
-                {character.hp},
-                {character.mp},
-                {character.ip},
-                {character.xp},
-                {character.fp},
-                {character.zenit},
-                '{character.classes}',
-                '{character.inventory}',
-                '{character.traits}',
-                '{character.bonds}'
-                )"""
+save_new_character_query = """
+            INSERT INTO characters
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """
 
-def save_character_query_builder(character, user_id):
-    return f""" UPDATE characters 
-                SET  
-                name = '{character.name}', 
-                dex = {character.dex}, 
-                vig = {character.vig}, 
-                intu = {character.intu}, 
-                will = {character.will},
-                hp = {character.hp},
-                mp = {character.mp},
-                ip = {character.ip},
-                xp = {character.xp},
-                fp = {character.fp},
-                zenit = {character.zenit},
-                classes = '{character.classes}',
-                inventory = '{character.inventory}',
-                traits = '{character.traits}',
-                bonds = '{character.bonds}'
-                WHERE discord_id = {user_id};"""
+save_character_query = """
+    UPDATE characters 
+    SET  
+    name = ?,
+    dex = ?,
+    vig = ?,
+    intu = ?,
+    will = ?,
+    hp = ?,
+    mp = ?,
+    ip = ?,
+    xp = ?,
+    fp = ?,
+    zenit = ?,
+    classes = ?,
+    inventory = ?,
+    traits = ?,
+    bonds = ?
+    WHERE discord_id = ?
+"""
 
-def move_character_to_trash_query_builder(character):
-    return f""" INSERT INTO Characters_thrash (discord_id, name, dex, vig, intu, will, hp, mp, ip, xp, fp, zenit, 
-            classes, inventory, traits, bonds) 
-            VALUES ( {character.discord_id},
-                    '{character.name}', 
-                    {character.dex}, 
-                    {character.vig}, 
-                    {character.intu}, 
-                    {character.will},
-                    {character.hp},
-                    {character.mp},
-                    {character.ip},
-                    {character.xp},
-                    {character.fp},
-                    {character.zenit},
-                    '{character.classes}',
-                    '{character.inventory}',
-                    '{character.traits}',
-                    '{character.bonds}'
-                    )"""
+move_character_to_trash_query = """
+    INSERT INTO Characters_thrash (discord_id, name, dex, vig, intu, will, hp, mp, ip, xp, fp, zenit, 
+    classes, inventory, traits, bonds) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+"""
 
 
 # Loading Query
