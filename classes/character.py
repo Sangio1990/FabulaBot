@@ -235,7 +235,7 @@ class Character:
                 self.mp += 5
                 return "Punti mente aumentati con successo."
             case "PI":
-                self.ip += 5
+                self.ip += 2
                 return "Punti inventario aumentati con successo."
 
     def buy_item(self, item_name: str, item_description: str, item_price: int) -> str:
@@ -495,6 +495,10 @@ class Character:
     def set_mp(self, mp: int) -> str:
         self.mp = mp
         return f"Mp modificati."
+
+    def set_ip(self, ip: int) -> str:
+        self.ip = ip
+        return f"Ip modificati."
 
 
 def check_doable(v: lightbulb.SlashContext.options):

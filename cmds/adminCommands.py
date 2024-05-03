@@ -41,3 +41,16 @@ async def set_pv(ctx: lightbulb.SlashContext) -> None:
     result = char.set_mp(ctx.options.mp)
     db.save_character(char, mentioned_id)
     await ctx.respond(result)
+
+
+@plugin.command
+@lightbulb.option("ip", "Che valore di ip vuoi assegnargli?", type=int, required=True)
+@lightbulb.option("menzione", "Menziona il giocatore a cui assegnare l'oggetto", type=str, required=True)
+@lightbulb.command("assegnaip", "Assegna ip ad un personaggio!")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def set_pv(ctx: lightbulb.SlashContext) -> None:
+    mentioned_id = clear_id_from_mention(ctx.options.menzione)
+    char = db.load_character(mentioned_id)
+    result = char.set_ip(ctx.options.ip)
+    db.save_character(char, mentioned_id)
+    await ctx.respond(result)
