@@ -488,6 +488,14 @@ class Character:
         self.traits = traits
         return f"Tratti del tuo pg aggiunti."
 
+    def set_pv(self, hp: int) -> str:
+        self.hp = hp
+        return f"Pv modificati."
+
+    def set_mp(self, mp: int) -> str:
+        self.mp = mp
+        return f"Mp modificati."
+
 
 def check_doable(v: lightbulb.SlashContext.options):
     """
@@ -540,8 +548,8 @@ def new_character(name: str, dex: int, vig: int, intu: int, will: int):
         intu,
         will,
         # Derived statistics
-        vig * 5 + 5,  # Hit Points derived from vigor
-        will * 5 + 5,  # Magic Points derived from willpower
+        vig * 5,  # Hit Points derived from vigor
+        will * 5,  # Magic Points derived from willpower
         # Fixed statistics
         6,  # Initial value for some statistic
         50,  # Initial value for some statistic

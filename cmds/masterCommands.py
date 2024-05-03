@@ -34,7 +34,7 @@ async def give_item(ctx: lightbulb.SlashContext) -> None:
     result = char.add_item(
         Item(ctx.options.nome.lower().capitalize(), description, ctx.options.prezzo, ctx.options.quantita,
              ctx.options.vendibile))
-    db.save_character(char, ctx.user.id)
+    db.save_character(char, mentioned_id)
     await ctx.respond(result)
 
 
@@ -47,7 +47,7 @@ async def remove_item(ctx: lightbulb.SlashContext) -> None:
     mentioned_id = clear_id_from_mention(ctx.options.menzione)
     char = db.load_character(mentioned_id)
     result = char.delete_item(ctx.options.oggetto)
-    db.save_character(char, ctx.user.id)
+    db.save_character(char, mentioned_id)
     if result == "Non hai oggetti da eliminare.":
         result = "Non ha oggetti da eliminare."
     await ctx.respond(result)
@@ -62,7 +62,7 @@ async def add_zenit(ctx: lightbulb.SlashContext) -> None:
     mentioned_id = clear_id_from_mention(ctx.options.menzione)
     char = db.load_character(mentioned_id)
     result = char.add_zenit(ctx.options.zenit)
-    db.save_character(char, ctx.user.id)
+    db.save_character(char, mentioned_id)
     await ctx.respond(result)
 
 
@@ -75,7 +75,7 @@ async def add_zenit(ctx: lightbulb.SlashContext) -> None:
     mentioned_id = clear_id_from_mention(ctx.options.menzione)
     char = db.load_character(mentioned_id)
     result = char.remove_zenit(ctx.options.zenit)
-    db.save_character(char, ctx.user.id)
+    db.save_character(char, mentioned_id)
     await ctx.respond(result)
 
 
@@ -88,7 +88,7 @@ async def add_fabula(ctx: lightbulb.SlashContext) -> None:
     mentioned_id = clear_id_from_mention(ctx.options.menzione)
     char = db.load_character(mentioned_id)
     result = char.add_fabula(ctx.options.quantita if ctx.options.quantita is not None else 1)
-    db.save_character(char, ctx.user.id)
+    db.save_character(char, mentioned_id)
     await ctx.respond(result)
 
 
@@ -101,7 +101,7 @@ async def remove_fabula(ctx: lightbulb.SlashContext) -> None:
     mentioned_id = clear_id_from_mention(ctx.options.menzione)
     char = db.load_character(mentioned_id)
     result = char.remove_fabula(ctx.options.quantita if ctx.options.quantita is not None else 1)
-    db.save_character(char, ctx.user.id)
+    db.save_character(char, mentioned_id)
     await ctx.respond(result)
 
 @plugin.command
