@@ -500,6 +500,10 @@ class Character:
         self.ip = ip
         return f"Ip modificati."
 
+    def add_exp(self, xp: int) -> str:
+        self.xp += xp
+        return f"Xp aggiunti con successo."
+
 
 def check_doable(v: lightbulb.SlashContext.options):
     """

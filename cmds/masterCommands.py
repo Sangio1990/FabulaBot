@@ -80,8 +80,8 @@ async def add_zenit(ctx: lightbulb.SlashContext) -> None:
 
 
 @plugin.command
-@lightbulb.option("menzione", "Menziona il giocatore a cui assegnare il punto fabula", type=str, required=True)
 @lightbulb.option("quantita", "Vuoi assegnarne più di uno?", type=int, required=False)
+@lightbulb.option("menzione", "Menziona il giocatore a cui assegnare il punto fabula", type=str, required=True)
 @lightbulb.command("aggiungipuntofabula", "Aggiungi un punto fabula ad un giocatore")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def add_fabula(ctx: lightbulb.SlashContext) -> None:
@@ -93,8 +93,8 @@ async def add_fabula(ctx: lightbulb.SlashContext) -> None:
 
 
 @plugin.command
-@lightbulb.option("menzione", "Menziona il giocatore a cui rimuovere il punto fabula", type=str, required=True)
 @lightbulb.option("quantita", "Vuoi toglierne più di uno?", type=int, required=False)
+@lightbulb.option("menzione", "Menziona il giocatore a cui rimuovere il punto fabula", type=str, required=True)
 @lightbulb.command("rimuovipuntofabula", "Rimuovi un punto fabula ad un giocatore")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def remove_fabula(ctx: lightbulb.SlashContext) -> None:
@@ -104,6 +104,7 @@ async def remove_fabula(ctx: lightbulb.SlashContext) -> None:
     db.save_character(char, mentioned_id)
     await ctx.respond(result)
 
+
 @plugin.command
 @lightbulb.option("menzione", "Menziona il giocatore di cui vedere la scheda")
 @lightbulb.command("vedischeda", "Vedi la scheda di un personaggio")
@@ -112,3 +113,16 @@ async def view_character(ctx: lightbulb.SlashContext) -> None:
     mentioned_id = clear_id_from_mention(ctx.options.menzione)
     char = db.load_character(mentioned_id)
     await ctx.respond(char)
+
+
+@plugin.command
+@lightbulb.option("px", "Quanti punti vuoi assegnare?", type=int, required=True)
+@lightbulb.option("menzione", "Menziona il giocatore a cui vuoi assegnare punti esperienza", type=str, required=True)
+@lightbulb.command("aggiungixp", "Vedi l'inventario di un personaggio")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def add_exp(ctx: lightbulb.SlashContext) -> None:
+    mentioned_id = clear_id_from_mention(ctx.options.menzione)
+    char = db.load_character(mentioned_id)
+    result = char.add_exp(ctx.options.px)
+    db.save_character(char, mentioned_id)
+    await ctx.respond(result)
