@@ -504,6 +504,13 @@ class Character:
         self.xp += xp
         return f"Xp aggiunti con successo."
 
+    def buy_ip(self, ip: int) -> str:
+        if self.zenit >= ip*10:
+            self.zenit -= ip*10
+            return f"{ip} ip acquistati con successo."
+        else:
+            return "Non hai abbastanza zenit."
+
 
 def check_doable(v: lightbulb.SlashContext.options):
     """

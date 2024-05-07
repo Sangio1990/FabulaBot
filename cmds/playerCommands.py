@@ -128,8 +128,8 @@ async def add_bonus(ctx: lightbulb.SlashContext) -> None:
 @lightbulb.option("prezzo", "Quanti zenit costa?", type=int, required=True)
 @lightbulb.option("descrizione", "Descrizione dell'oggetto", type=str, required=False)
 @lightbulb.option("oggetto", "Quale oggetto vuoi comprare?", type=str, required=True)
-@lightbulb.command("compraoggetto","Compra un oggetto dal mercato base. "
-                   "ASSICURATI DI AVER AVVISATO UN MASTER DI QUESTO ACQUISTO!")
+@lightbulb.command("compraoggetto", "Compra un oggetto dal mercato base. "
+                                    "ASSICURATI DI AVER AVVISATO UN MASTER DI QUESTO ACQUISTO!")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def buy_item(ctx: lightbulb.SlashContext) -> None:
     char = db.load_character(ctx.user.id)
@@ -151,7 +151,8 @@ async def sell_item(ctx: lightbulb.SlashContext) -> None:
 
 
 @plugin.command
-@lightbulb.option("statistica", "Quale statistica vuoi aumentare??", type=str, choices=["Vigore", "Intuito", "Volontà", "Destrezza"],required=True)
+@lightbulb.option("statistica", "Quale statistica vuoi aumentare??", type=str,
+                  choices=["Vigore", "Intuito", "Volontà", "Destrezza"], required=True)
 @lightbulb.command("aumentastatistica", "Usa un oggetto")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def increase_stat(ctx: lightbulb.SlashContext) -> None:
@@ -159,6 +160,7 @@ async def increase_stat(ctx: lightbulb.SlashContext) -> None:
     result = char.increase_stat(ctx.options.statistica)
     db.save_character(char, ctx.user.id)
     await ctx.respond(result)
+
 
 @plugin.command
 @lightbulb.option("oggetto", "Quale oggetto vuoi eliminare=", type=str, required=True)
@@ -179,5 +181,16 @@ async def delete_item(ctx: lightbulb.SlashContext) -> None:
 async def traits(ctx: lightbulb.SlashContext) -> None:
     char = db.load_character(ctx.user.id)
     result = char.change_traits(ctx.options.identita, ctx.options.tema)
+    db.save_character(char, ctx.user.id)
+    await ctx.respond(result)
+
+
+@plugin.command
+@lightbulb.option("pi", "Quanti PI devi cokmpare?", type=int, required=True)
+@lightbulb.command("comprapi", "Compra PI")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def buy_pi(ctx: lightbulb.SlashContext) -> None:
+    char = db.load_character(ctx.user.id)
+    result = char.buy_ip(ctx.options.pi)
     db.save_character(char, ctx.user.id)
     await ctx.respond(result)
