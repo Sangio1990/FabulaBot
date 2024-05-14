@@ -511,6 +511,18 @@ class Character:
         else:
             return "Non hai abbastanza zenit."
 
+    def get_stat(self, stat: str) -> int:
+        match stat:
+            case "vig":
+                return self.vig
+            case "dex":
+                return self.dex
+            case "intu":
+                return self.intu
+            case "will":
+                return self.will
+
+
 
 def check_doable(v: lightbulb.SlashContext.options):
     """

@@ -7,6 +7,7 @@ ADMIN_ROLE = "admin_role"
 CLASSES = ["Arcanista", "Artefice", "Canaglia", "Chimerista", "Elementalista", "Entropista", "Furia", "Guardiano",
            "Lama Oscura", "Maestro d'Armi", "Oratore", "Sapiente", "Spiritista", "Tiratore", "Viandante"]
 
+STATS = {"Vigore": "vig", "Intuito": "intu", "Volontà": "will", "Destrezza": "dex"}
 BOOL_ITA = ["si", "no"]
 new_char_dice_values = ["6", "8", "10"]
 char_dice_values = ["6", "8", "10", "12"]

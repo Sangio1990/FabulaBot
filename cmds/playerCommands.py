@@ -3,6 +3,7 @@ import lightbulb
 from secretsData.data import *
 from classes.character import check_doable, Character
 from db.utilsDB import UtilsDB
+from utils.cmdsLogic import multidice_roll
 from utils.utils import bool_ita
 
 plugin = lightbulb.Plugin(name="Comandi Giocatore", description="Comandi disponibili solo per i giocatori")
@@ -192,5 +193,18 @@ async def traits(ctx: lightbulb.SlashContext) -> None:
 async def buy_pi(ctx: lightbulb.SlashContext) -> None:
     char = db.load_character(ctx.user.id)
     result = char.buy_ip(ctx.options.pi)
+    db.save_character(char, ctx.user.id)
+    await ctx.respond(result)
+
+
+@plugin.command
+@lightbulb.option("statistica1", "Quale statistica vuoi tirare?", type=str, required=True, choices=STATS)
+@lightbulb.option("statistica2", "Quale statistica vuoi tirare?", type=str, required=True, choices=STATS)
+@lightbulb.option("modificatore", "Hai bonus o malus?", type=int, required=False)
+@lightbulb.command("fabularoll", "Fai un tiro in stile FABULA!")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def fabula_roll_command(ctx: lightbulb.SlashContext) -> None:
+    char = db.load_character(ctx.user.id)
+    result = f"Il tiro di {ctx.options.statistica1} e {ctx.options.statistica1} ha fatto {multidice_roll(char.get_stat(STATS[ctx.options.statistica1]), char.get_stat(STATS[ctx.options.statistica2]), ctx.options.modificatore)}"
     db.save_character(char, ctx.user.id)
     await ctx.respond(result)
