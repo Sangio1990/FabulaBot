@@ -1,7 +1,7 @@
 # User File/Folder
 secretsData
 db/Iridis.db
-
+db_bck/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
