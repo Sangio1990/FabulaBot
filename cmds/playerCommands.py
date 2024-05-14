@@ -187,7 +187,7 @@ async def traits(ctx: lightbulb.SlashContext) -> None:
 
 @plugin.command
 @lightbulb.option("pi", "Quanti PI devi cokmpare?", type=int, required=True)
-@lightbulb.command("comprapi", "Compra PI")
+@lightbulb.command("compra_pi", "Compra PI")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def buy_pi(ctx: lightbulb.SlashContext) -> None:
     char = db.load_character(ctx.user.id)

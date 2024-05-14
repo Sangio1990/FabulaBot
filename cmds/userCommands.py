@@ -2,18 +2,20 @@ import random
 
 import lightbulb
 
-u_plugin = lightbulb.Plugin(name="Comandi Utente", description="Comandi disponibili a tutti gli utenti")
+from utils.cmdsLogic import roll
+
+plugin = lightbulb.Plugin(name="Comandi Utente", description="Comandi disponibili a tutti gli utenti")
 
 
 def load(bot: lightbulb.BotApp):
-    bot.add_plugin(u_plugin)
+    bot.add_plugin(plugin)
 
 
 def unload(bot: lightbulb.BotApp):
-    bot.remove_plugin(u_plugin)
+    bot.remove_plugin(plugin)
 
 
-@u_plugin.command
+@plugin.command
 @lightbulb.option("numero", "Il numero che scegli", type=int, choices=[1, 2, 3, 4, 5, 6])
 @lightbulb.command("gambling", "Scegli 1 numero da 1 a 6 e vediamo se azzecchi il tiro di dado!")
 @lightbulb.implements(lightbulb.SlashCommand)
@@ -25,16 +27,24 @@ async def gambling(ctx: lightbulb.SlashContext) -> None:
         await ctx.respond(f"Mi dispiace, il dado ha fatto {num}!")
 
 
-@u_plugin.command
+@plugin.command
 @lightbulb.command("ping", "Controlla se il bot è vivo")
 @lightbulb.implements(lightbulb.PrefixCommand)
 async def ping(ctx: lightbulb.Context) -> None:
     await ctx.respond("Pong!")
 
 
-@u_plugin.command
+@plugin.command
 @lightbulb.command("ping", "Controlla se il bot è vivo")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def ping(ctx: lightbulb.SlashContext) -> None:
     await ctx.respond("Pong from slash!")
 
+@plugin.command
+@lightbulb.option("taglia", "Qante facce ha il tuo dado?", type=int, required=True)
+@lightbulb.option("quanti", "Quanti dadi vuoi tirare?", type=int, required=False)
+@lightbulb.option("modificatore", "Quale modificatore vuoi aggiungere?", type=int, required=False)
+@lightbulb.command("roll", "Tira i dadi!")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def roll_command(ctx: lightbulb.SlashContext) -> None:
+    await ctx.respond(roll(ctx.options.taglia, ctx.options.quanti, ctx.options.modificatore))
