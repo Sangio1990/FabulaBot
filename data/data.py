@@ -11,3 +11,9 @@ STATS = {"Vigore": "vig", "Intuito": "intu", "Volontà": "will", "Destrezza": "d
 BOOL_ITA = ["si", "no"]
 new_char_dice_values = ["6", "8", "10"]
 char_dice_values = ["6", "8", "10", "12"]
+roles = ["apprendista", "stella nascente", "cavaliere valoroso", "protettore epico", "campione leggendario",
+         "eroe mitico"]
+
+# Error messages
+no_char_found = "Non ho trovato nessun personaggio, sicuro di averlo creato?"
+no_data_found = "Non ho trovato nessun dato nel database, contatta un amministratore."

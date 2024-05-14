@@ -1,9 +1,12 @@
+import random
+
+import hikari
 import lightbulb
 
-from classes.item import Item
+from classes.item import Item, material_table
 from db.utilsDB import UtilsDB
 from secretsData.data import *
-from utils.utils import clear_id_from_mention
+from utils.utils import clear_id_from_mention, get_user_from_id
 
 plugin = lightbulb.Plugin(name="Comandi Master", description="Comandi disponibili solo ai Master")
 plugin.add_checks(lightbulb.checks.has_roles(chosen_region[MASTER_ROLE], chosen_region[ADMIN_ROLE], mode=any))
@@ -116,13 +119,55 @@ async def view_character(ctx: lightbulb.SlashContext) -> None:
 
 
 @plugin.command
-@lightbulb.option("px", "Quanti punti vuoi assegnare?", type=int, required=True)
+@lightbulb.option("xp", "Quanti punti esperienza vuoi assegnare?", type=int, required=True)
 @lightbulb.option("menzione", "Menziona il giocatore a cui vuoi assegnare punti esperienza", type=str, required=True)
 @lightbulb.command("aggiungixp", "Vedi l'inventario di un personaggio")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def add_exp(ctx: lightbulb.SlashContext) -> None:
     mentioned_id = clear_id_from_mention(ctx.options.menzione)
     char = db.load_character(mentioned_id)
-    result = char.add_exp(ctx.options.px)
+    result = char.add_exp(ctx.options.xp)
     db.save_character(char, mentioned_id)
     await ctx.respond(result)
+
+
+@plugin.command
+@lightbulb.option("giocatore5", "Menziona il quinto giocatore", type=str, required=False)
+@lightbulb.option("giocatore4", "Menziona il quarto giocatore", type=str, required=False)
+@lightbulb.option("giocatore3", "Menziona il terzo giocatore", type=str, required=True)
+@lightbulb.option("giocatore2", "Menziona il secondo giocatore", type=str, required=True)
+@lightbulb.option("giocatore1", "Menziona il primo giocatore", type=str, required=True)
+@lightbulb.option("xp", "Quanti punti esperienza han guadagnato i tuoi giocatori?", type=int, required=True)
+@lightbulb.command("reward", "Assegna i reward di fine sessione")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def reward(ctx: lightbulb.SlashContext) -> None:
+    xp = ctx.options.xp
+    for i in range(1, 6):
+        user_option = getattr(ctx.options, f'giocatore{i}')
+        if not (user_option is None or user_option == ""):
+            mentioned_id = clear_id_from_mention(user_option)
+            char = db.load_character(mentioned_id)
+            user: hikari.Member = get_user_from_id(mentioned_id, ctx)
+            role = set(roles) & set(role.name.lower() for role in user.get_roles())
+            reward_row = db.load_rewards("".join(role))
+            response = f"**{char.name}**\n```Grado: {''.join(role).title()}\n"
+            char.add_exp(xp)
+            response += f"Guadagna {xp}XP andando a {char.xp}\n"
+            char.add_zenit(reward_row.zenit)
+            response += f"Guadagna {reward_row.zenit}Z andando a {char.zenit}\n"
+            rewards = reward_row.roll_reward()
+            response += f"Guadagna {len(rewards)} oggetti:\n"
+            i = 0
+            for r in rewards:
+                i += 1
+                if r[1] == "no":
+                    response += f"Il {i}° dado ha fatto {r[0]} quindi riceve un bel niente\n"
+                else:
+                    material = material_table[r[1]]
+                    char.add_item(material)
+                    response += f"Il {i}° dado ha fatto {r[0]} quindi riceve un {material.name}\n"
+            db.save_character(char, mentioned_id)
+            await ctx.bot.rest.create_message(ctx.get_channel(), response+"```\n\n")
+    await ctx.bot.rest.create_message(ctx.get_channel(),"**Fine**")
+
+

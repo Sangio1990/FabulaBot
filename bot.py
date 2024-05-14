@@ -6,7 +6,7 @@ import schedule
 from hikari import Intents
 import sqlite3
 
-from db.utilsDB import UtilsDB, NoCharFound
+from db.utilsDB import UtilsDB, NoCharFound, NoDataFound
 from secretsData.data import *
 from utils.utils import role_name
 
@@ -49,7 +49,9 @@ async def on_command_error(event: lightbulb.CommandErrorEvent) -> None:
     If the exception is of any other type, it prints the exception and its information and responds with a generic error message.
     """
     if isinstance(event.exception, NoCharFound):
-        await event.context.respond("Non ho trovato il personaggio, assicurati che sia stato creato.")
+        await event.context.respond(no_char_found)
+    elif isinstance(event.exception, NoDataFound):
+        await event.context.respond(no_data_found)
     elif isinstance(event.exception, lightbulb.errors.MissingRequiredRole):
         role = event.exception.missing_roles[0]
         await event.context.respond(f"Sono spiacente, per usare questo comando devi avere il ruolo {role_name(role)}.")

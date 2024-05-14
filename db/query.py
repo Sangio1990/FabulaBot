@@ -92,6 +92,29 @@ create_bonds_table = """
         level INTEGER NOT NULL
     )"""
 
+create_rewards_table = """CREATE TABLE IF NOT EXISTS rewards_table (
+                        "rank" TEXT,
+                        zenit INTEGER,
+                        materials_rolls INTEGER,
+                        no_material INTEGER,
+                        common_material INTEGER,
+                        rare_material INTEGER,
+                        epic_material INTEGER,
+                        legendary_material INTEGER
+                    );
+                    """
+
+populate_rewards_table = """INSERT INTO rewards_table 
+                        ("rank",zenit,materials_rolls,no_material,common_material,rare_material,epic_material,legendary_material) 
+                        VALUES
+                         ('apprendista',0,0,0,0,0,0,0),
+                         ('stella nascente',250,2,1,2,30,30,30),
+                         ('cavaliere valoroso',400,4,1,2,17,30,30),
+                         ('protettore epico',500,6,1,3,12,17,30),
+                         ('campione leggendario',800,8,1,5,9,15,20),
+                         ('eroe mitico',1000,10,1,4,7,14,19);
+                    """
+
 
 # Delete Query
 def delete_character_query_builder(user_id):
@@ -138,3 +161,7 @@ move_character_to_trash_query = """
 # Loading Query
 def load_character_query_builder(user_id):
     return f""" SELECT * FROM characters WHERE discord_id={user_id}"""
+
+
+def load_rewards_query_builder(rank: str):
+    return f""" SELECT * FROM rewards_table WHERE rank='{rank}'"""

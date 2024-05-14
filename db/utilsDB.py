@@ -8,12 +8,23 @@ from sqlite3 import Connection
 from lightbulb import LightbulbError
 
 from classes.character import Character
+from classes.reward import Reward
+from data.data import no_char_found, no_data_found
 from db.query import *
 
 
 class NoCharFound(LightbulbError):
     """
     Exception raised when a character is not found in the database.
+    """
+
+    def __init__(self, *args: t.Any) -> None:
+        super().__init__(*args)
+
+
+class NoDataFound(LightbulbError):
+    """
+    Exception raised when no data is found in the database.
     """
 
     def __init__(self, *args: t.Any) -> None:
@@ -52,6 +63,12 @@ class UtilsDB:
         # self.c.execute(create_skills_table)
         # self.c.execute(create_bonds_table)
         self.c.execute(create_character_trash_table)
+
+        # Reward Table
+        self.c.execute("DROP TABLE IF EXISTS rewards_table;")
+        self.c.execute(create_rewards_table)
+        self.c.execute(populate_rewards_table)
+
         self.connection.commit()
 
     def check_if_id_exists(self, user_id):
@@ -155,14 +172,28 @@ class UtilsDB:
             self.c.execute(load_character_query_builder(user_id))
         except Exception as e:
             print(e)
-            raise NoCharFound("Non ho trovato nessun personaggio, sicuro di averlo creato?")
+            raise NoCharFound(no_char_found)
 
         result = self.c.fetchone()
 
         if result is None:
-            raise NoCharFound("Non ho trovato nessun personaggio, sicuro di averlo creato?")
+            raise NoCharFound(no_char_found)
         character = Character(*result)
         return character
+
+    def load_rewards(self, rank: str):
+        try:
+            self.c.execute(load_rewards_query_builder(rank))
+        except Exception as e:
+            print(e)
+            raise NoDataFound(no_data_found)
+
+        result = self.c.fetchone()
+
+        if result is None:
+            raise NoDataFound(no_data_found)
+        rewards = Reward(*result)
+        return rewards
 
     def delete_character(self, user_id: int):
         """
