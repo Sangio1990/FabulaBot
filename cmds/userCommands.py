@@ -3,6 +3,7 @@ import random
 import lightbulb
 
 from utils.cmdsLogic import roll
+from view.pineappleview import PineappleView
 
 plugin = lightbulb.Plugin(name="Comandi Utente", description="Comandi disponibili a tutti gli utenti")
 
@@ -48,3 +49,22 @@ async def ping(ctx: lightbulb.SlashContext) -> None:
 @lightbulb.implements(lightbulb.SlashCommand)
 async def roll_command(ctx: lightbulb.SlashContext) -> None:
     await ctx.respond(roll(ctx.options.taglia, ctx.options.quanti, ctx.options.modificatore))
+
+
+@plugin.command()
+@lightbulb.command("pineapplepizza", "description", auto_defer=False)
+@lightbulb.implements(lightbulb.SlashCommand)
+async def some_slash_command(ctx: lightbulb.SlashContext) -> None:
+    view = PineappleView()  # Create the view
+
+    await ctx.respond("Do you put pineapple on your pizza?", components=view)
+
+    ctx.app.d.miru.start_view(view)
+
+    # You can also wait until the view is stopped or times out
+    await view.wait()
+
+    if view.answer is not None:
+        print(f"Received an answer! It is: {view.answer}")
+    else:
+        print("Did not receive an answer in time!")

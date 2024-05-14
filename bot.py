@@ -1,4 +1,8 @@
+import time
+
 import lightbulb
+import miru
+import schedule
 from hikari import Intents
 import sqlite3
 
@@ -22,6 +26,8 @@ bot = lightbulb.BotApp(
 
 bot.load_extensions("cmds.userCommands", "cmds.adminCommands", "cmds.masterCommands", "cmds.playerCommands",
                     "cmds.sessionscheduler")
+
+bot.d.miru = miru.Client(bot)
 
 
 # Define a listener for handling command errors in the bot
@@ -54,6 +60,22 @@ async def on_command_error(event: lightbulb.CommandErrorEvent) -> None:
         print(event.exception)
         print(event.exc_info)
         await event.context.respond("Errore nel bot, contatta un amministratore.")
+
+
+""" Planning the backup every day at 3:00 AM """
+schedule.every().day.at("03:00").do(db.backup_db)
+
+
+def run_scheduler():
+    """
+    Continuously checks and runs scheduled tasks.
+
+    This function enters an infinite loop, where it periodically checks for any pending tasks scheduled with the `schedule` library.
+    If any tasks are pending, they are executed. The loop then sleeps for a short period before checking again.
+    """
+    while True:
+        schedule.run_pending()  # Check and run any pending tasks.
+        time.sleep(1)  # Sleep for 1 second before checking again.
 
 
 if __name__ == "__main__":

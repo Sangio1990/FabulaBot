@@ -54,3 +54,11 @@ async def set_pv(ctx: lightbulb.SlashContext) -> None:
     result = char.set_ip(ctx.options.ip)
     db.save_character(char, mentioned_id)
     await ctx.respond(result)
+
+
+@plugin.command
+@lightbulb.command("backup", "Forza il backup del database!")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def backup(ctx: lightbulb.SlashContext) -> None:
+    db.backup_db()
+    await ctx.respond("Backup effettuato!")

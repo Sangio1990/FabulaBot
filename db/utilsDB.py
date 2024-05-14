@@ -1,4 +1,7 @@
+import datetime
 import json
+import os
+import shutil
 import typing as t
 from sqlite3 import Connection
 
@@ -205,3 +208,19 @@ class UtilsDB:
         ))
         self.c.execute(delete_character_query_builder(user_id))
         self.connection.commit()
+
+    def backup_db(self):
+        try:
+            current_date = datetime.datetime.now().strftime("%Y.%m.%d")
+            original_db = "db/Iridis.db"
+            backup_dir = "db_bck"
+            backup_db = os.path.join(backup_dir, f"Iridis.{current_date}.db")
+
+            os.makedirs(backup_dir, exist_ok=True)
+
+            shutil.copy2(original_db, backup_db)
+            print(f"Backup del database eseguito con successo: {backup_db}")
+        except Exception as e:
+            print(f"Errore durante il backup del database: {e}")
+
+        print(f"backup eseguito di {self}")
