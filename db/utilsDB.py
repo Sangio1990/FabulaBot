@@ -211,7 +211,7 @@ class UtilsDB:
 
     def backup_db(self):
         try:
-            current_date = datetime.datetime.now().strftime("%Y.%m.%d")
+            current_date = datetime.datetime.now().strftime("%Y.%m.%d.%H.%M.%S")
             original_db = "db/Iridis.db"
             backup_dir = "db_bck"
             backup_db = os.path.join(backup_dir, f"Iridis.{current_date}.db")
