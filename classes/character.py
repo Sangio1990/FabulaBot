@@ -365,7 +365,7 @@ class Character:
         self.inventory.append(item)
         return f"{item.name} aggiunto con successo."
 
-    def delete_item(self, item: str) -> str:
+    def delete_item(self, item: str, quantity: int = 1) -> str:
         """
         Removes the specified item from the character's inventory and updates the quantity if the item exists.
 
@@ -388,11 +388,11 @@ class Character:
             item = item.lower().capitalize()
             for i in self.inventory:
                 if i.name == item:
-                    if i.quantity == 1:
+                    if i.quantity <= quantity:
                         self.inventory.remove(i)
-                        return f"{item} rimosso con successo."
+                        return f"{item} rimosso con successo dall'inventario."
                     else:
-                        i.quantity -= 1
+                        i.quantity -= quantity
                         return f"{item} rimosso con successo."
             return f"Oggetto {item} non trovato."
 

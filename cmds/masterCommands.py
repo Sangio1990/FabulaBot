@@ -44,12 +44,13 @@ async def give_item(ctx: lightbulb.SlashContext) -> None:
 @plugin.command
 @lightbulb.option("oggetto", "Quale oggetto vuoi eliminare=", type=str, required=True)
 @lightbulb.option("menzione", "Menziona il giocatore a cui assegnare l'oggetto", type=str, required=True)
+@lightbulb.option("quantita", "Quanti materiali vuoi eliminare?", type=int, required=False)
 @lightbulb.command("rimuovioggetto", "Rimuovi un oggetto da un inventario di un personaggio")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def remove_item(ctx: lightbulb.SlashContext) -> None:
     mentioned_id = clear_id_from_mention(ctx.options.menzione)
     char = db.load_character(mentioned_id)
-    result = char.delete_item(ctx.options.oggetto)
+    result = char.delete_item(ctx.options.oggetto, ctx.options.quantita if ctx.options.quantita is not None else 1)
     db.save_character(char, mentioned_id)
     if result == "Non hai oggetti da eliminare.":
         result = "Non ha oggetti da eliminare."
