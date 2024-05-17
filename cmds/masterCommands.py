@@ -1,5 +1,4 @@
-import random
-
+import copy
 import hikari
 import lightbulb
 
@@ -164,7 +163,7 @@ async def reward(ctx: lightbulb.SlashContext) -> None:
                 if r[1] == "no":
                     response += f"Il {i}° dado ha fatto {r[0]} quindi riceve un bel niente\n"
                 else:
-                    material = material_table[r[1]]
+                    material = copy.deepcopy(material_table[r[1]])
                     char.add_item(material)
                     response += f"Il {i}° dado ha fatto {r[0]} quindi riceve un {material.name}\n"
             db.save_character(char, mentioned_id)
