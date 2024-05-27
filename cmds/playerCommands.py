@@ -206,5 +206,13 @@ async def buy_pi(ctx: lightbulb.SlashContext) -> None:
 async def fabula_roll_command(ctx: lightbulb.SlashContext) -> None:
     char = db.load_character(ctx.user.id)
     result = f"Il tiro di {ctx.options.statistica1} e {ctx.options.statistica1} ha fatto {multidice_roll(char.get_stat(STATS[ctx.options.statistica1]), char.get_stat(STATS[ctx.options.statistica2]), ctx.options.modificatore)}"
-    db.save_character(char, ctx.user.id)
+    await ctx.respond(result)
+
+@plugin.command
+@lightbulb.option("nomeoggetto", "Di che oggetto nel tuo inventario vuoi saperne di più?", type=str, required=True)
+@lightbulb.command("infooggetto", "Vedi maggiori informazioni di un oggetto che possiedi")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def info_item_cmd(ctx: lightbulb.SlashContext) -> None:
+    char = db.load_character(ctx.user.id)
+    result = char.info_item(ctx.options.nomeoggetto)
     await ctx.respond(result)

@@ -505,8 +505,8 @@ class Character:
         return f"Xp aggiunti con successo."
 
     def buy_ip(self, ip: int) -> str:
-        if self.zenit >= ip*10:
-            self.zenit -= ip*10
+        if self.zenit >= ip * 10:
+            self.zenit -= ip * 10
             return f"{ip} ip acquistati con successo."
         else:
             return "Non hai abbastanza zenit."
@@ -522,6 +522,25 @@ class Character:
             case "will":
                 return self.will
 
+    def info_item(self, item: str) -> str:
+        """
+        Returns the information of the specified item.
+
+        Parameters:
+        - item (str): The name of the item to be retrieved.
+
+        Returns:
+        - str: The information of the specified item.
+
+        This function takes an item name as input and searches for the item in the character's inventory.
+        If the item is found, it returns the item's information.
+        If the item is not found, it returns a message indicating that the item was not found.
+        """
+
+        for i in self.inventory:
+            if i.name.lower() == item.lower():
+                return i.__str__()
+        return f"Oggetto {item} non trovato."
 
 
 def check_doable(v: lightbulb.SlashContext.options):

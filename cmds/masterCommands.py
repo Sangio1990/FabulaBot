@@ -170,4 +170,13 @@ async def reward(ctx: lightbulb.SlashContext) -> None:
             await ctx.bot.rest.create_message(ctx.get_channel(), response+"```\n\n")
     await ctx.bot.rest.create_message(ctx.get_channel(),"**Fine**")
 
-
+@plugin.command
+@lightbulb.option("nomeoggetto", "Scrivi il nome dell'oggetto che vuoi vedere")
+@lightbulb.option("menzione", "Menziona il giocatore che possiede l'oggetto che vuoi vedere", type=str, required=True)
+@lightbulb.command("masterinfooggetto", "Vedi l'inventario di un personaggio")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def master_info_item(ctx: lightbulb.SlashContext) -> None:
+    mentioned_id = clear_id_from_mention(ctx.options.menzione)
+    char = db.load_character(mentioned_id)
+    result = char.info_item(ctx.options.nomeoggetto)
+    await ctx.respond(result)
