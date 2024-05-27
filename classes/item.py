@@ -41,7 +41,7 @@ class Item:
         return (f"**{self.name}** - {self.value}Z\n" +
                 (f"**Ne possiedi:** {self.quantity}\n" if self.quantity > 1 else "") +
                 f"**Vendibile:** ") + ("Si" if self.sellable else "No") + \
-            f"{self.description}"
+            f"\n{self.description}"
 
 
 material_table = {
