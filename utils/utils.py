@@ -113,7 +113,7 @@ def get_server_statistics() -> str:
     string = f"**ECCOTI LE STATISTICHE DEL SERVER**:\n ```{'-'*25}\n" + \
         f"| LV | N° |\n"
     for level in level_dict:
-        string += f"| {'0'+str(level) if level < 9 else level} | {'0'+str(level_dict[level]) if level_dict[level] < 9 else level_dict[level]} |\n"
+        string += f"| {'0'+str(level) if level <= 9 else level} | {'0'+str(level_dict[level]) if level_dict[level] <= 9 else level_dict[level]} |\n"
     string += f"{'-'*25}\n" + \
         f"| CLASSE {' '*10}| N° |\n"
 
@@ -122,6 +122,6 @@ def get_server_statistics() -> str:
         space_after = 0
         if len(cls) < max_space:
             space_after = (max_space - len(cls))
-        string += f"| {cls}{' '*space_after} | {'0'+str(class_dict[cls]) if class_dict[cls] < 9 else class_dict[cls]} |\n"
+        string += f"| {cls}{' '*space_after} | {'0'+str(class_dict[cls]) if class_dict[cls] <= 9 else class_dict[cls]} |\n"
     string += f"{'-'*25}```"
     return string
