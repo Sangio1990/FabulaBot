@@ -157,6 +157,9 @@ move_character_to_trash_query = """
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 """
 
+load_all_characters_query = """
+    SELECT * FROM characters  
+"""
 
 # Loading Query
 def load_character_query_builder(user_id):

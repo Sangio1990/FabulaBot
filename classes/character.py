@@ -99,12 +99,14 @@ class Character:
             for i in range(len(self.bonds)):
                 legami += f"\n > **{i + 1})** {self.bonds[i].destination}, {self.bonds[i].description} [{self.bonds[i].level}]"
 
+        level = 0
         cls = "**Classi: **"
         if self.classes.__len__() == 0:
             cls += "Nessuna classe."
         else:
             for i in range(len(self.classes)):
                 cls += f"\n > **{i + 1})** {self.classes[i].name} [{self.classes[i].lvl}]"
+                level += self.classes[i].lvl
 
         items = "**Inventario:**"
         if self.inventory.__len__() == 0:
@@ -117,6 +119,7 @@ class Character:
 
         traits = self.traits if self.traits.__len__() > 0 else "Nessun tratto."
         return f"> **Nome**: {self.name}" + \
+            f"\n> **Livello**: {level}" + \
             f"\n> **Tratti**: {traits}" + \
             f"\n> {legami}" + \
             f"\n> **Punti fabula**: {self.fp}" + \

@@ -1,6 +1,9 @@
 import json
 
+from db.utilsDB import UtilsDB
 from secretsData.data import *
+
+db = UtilsDB()
 
 
 def deserialize_json_to_object(json_string: str, class_name):
@@ -83,3 +86,42 @@ def get_user_from_id(mentioned_id: int, ctx):
     - The user object corresponding to the provided user ID.
     """
     return ctx.get_guild().get_member(mentioned_id)
+
+
+def get_server_statistics() -> str:
+    characters = db.load_all_character()
+    level_dict = {}
+    class_dict = {}
+    for character in characters:
+        level = 0
+        for cls in character.classes:
+            if cls.name not in class_dict:
+                class_dict[cls.name] = 1
+            else:
+                class_dict[cls.name] += 1
+            level += cls.lvl
+        if level not in level_dict:
+            level_dict[level] = 1
+        else:
+            level_dict[level] += 1
+
+    # Sorting the dicts to get a prettier output string
+    level_dict = dict(sorted(level_dict.items()))
+    class_dict = dict(sorted(class_dict.items()))
+
+    # Creating the output string
+    string = f"**ECCOTI LE STATISTICHE DEL SERVER**:\n ```{'-'*25}\n" + \
+        f"| LV | N° |\n"
+    for level in level_dict:
+        string += f"| {'0'+str(level) if level < 9 else level} | {'0'+str(level_dict[level]) if level_dict[level] < 9 else level_dict[level]} |\n"
+    string += f"{'-'*25}\n" + \
+        f"| CLASSE {' '*10}| N° |\n"
+
+    max_space = 16
+    for cls in class_dict:
+        space_after = 0
+        if len(cls) < max_space:
+            space_after = (max_space - len(cls))
+        string += f"| {cls}{' '*space_after} | {'0'+str(class_dict[cls]) if class_dict[cls] < 9 else class_dict[cls]} |\n"
+    string += f"{'-'*25}```"
+    return string

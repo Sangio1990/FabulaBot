@@ -1,4 +1,5 @@
 import datetime
+import importlib
 import json
 import os
 import shutil
@@ -7,7 +8,6 @@ from sqlite3 import Connection
 
 from lightbulb import LightbulbError
 
-from classes.character import Character
 from classes.reward import Reward
 from data.data import no_char_found, no_data_found
 from db.query import *
@@ -168,6 +168,7 @@ class UtilsDB:
         Notes:
         This method retrieves the character data from the database based on the provided user ID. If the character is not found, it raises a NoCharFound exception. Otherwise, it constructs a Character object from the retrieved data and returns it.
         """
+        c = importlib.import_module("classes.character")
         try:
             self.c.execute(load_character_query_builder(user_id))
         except Exception as e:
@@ -178,7 +179,7 @@ class UtilsDB:
 
         if result is None:
             raise NoCharFound(no_char_found)
-        character = Character(*result)
+        character = c.Character(*result)
         return character
 
     def load_rewards(self, rank: str):
@@ -255,3 +256,19 @@ class UtilsDB:
             print(f"Errore durante il backup del database: {e}")
 
         print(f"backup eseguito di {self}")
+
+    def load_all_character(self):
+        try:
+            self.c.execute(load_all_characters_query)
+        except Exception as e:
+            print(e)
+            raise NoDataFound(no_data_found)
+        results = self.c.fetchall()
+        if results is None:
+            raise NoCharFound(no_char_found)
+        characters = []
+        c = importlib.import_module("classes.character")
+        for result in results:
+            character = c.Character(*result)
+            characters.append(character)
+        return characters

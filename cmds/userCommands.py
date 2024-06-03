@@ -2,7 +2,9 @@ import random
 
 import lightbulb
 
+from db.utilsDB import UtilsDB
 from utils.cmdsLogic import roll
+from utils.utils import get_server_statistics
 from view.pineappleview import PineappleView
 
 plugin = lightbulb.Plugin(name="Comandi Utente", description="Comandi disponibili a tutti gli utenti")
@@ -41,6 +43,7 @@ async def ping(ctx: lightbulb.Context) -> None:
 async def ping(ctx: lightbulb.SlashContext) -> None:
     await ctx.respond("Pong from slash!")
 
+
 @plugin.command
 @lightbulb.option("taglia", "Qante facce ha il tuo dado?", type=int, required=True)
 @lightbulb.option("quanti", "Quanti dadi vuoi tirare?", type=int, required=False)
@@ -68,3 +71,10 @@ async def some_slash_command(ctx: lightbulb.SlashContext) -> None:
         print(f"Received an answer! It is: {view.answer}")
     else:
         print("Did not receive an answer in time!")
+
+
+@plugin.command
+@lightbulb.command("statisticheserver", "Scopri cose sui pg del server")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def statistics(ctx: lightbulb.SlashContext) -> None:
+    await ctx.respond(get_server_statistics())
