@@ -110,8 +110,9 @@ def get_server_statistics() -> str:
     class_dict = dict(sorted(class_dict.items()))
 
     # Creating the output string
-    string = f"**ECCOTI LE STATISTICHE DEL SERVER**:\n ```{'-'*25}\n" + \
-        f"| LV | N° |\n"
+    string = f"**ECCOTI LE STATISTICHE DEL SERVER**:\n " + \
+        f"Nel database sono state create **{len(characters)}** schede \n" + \
+        f"```\n{'-'*11}\n| LV | N° |\n"
     for level in level_dict:
         string += f"| {'0'+str(level) if level <= 9 else level} | {'0'+str(level_dict[level]) if level_dict[level] <= 9 else level_dict[level]} |\n"
     string += f"{'-'*25}\n" + \
