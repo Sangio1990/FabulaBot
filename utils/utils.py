@@ -89,40 +89,105 @@ def get_user_from_id(mentioned_id: int, ctx):
 
 
 def get_server_statistics() -> str:
+    """
+    Retrieves and processes statistics about the server's characters.
+
+    Returns:
+    - str: A formatted string containing the server's statistics.
+
+    The statistics include:
+    - Total number of characters in the database.
+    - Distribution of character levels.
+    - Distribution of character classes.
+    """
+
+    # Fetch all characters from the database
     characters = db.load_all_character()
+
+    # Initialize dictionaries to store level and class distributions
     level_dict = {}
     class_dict = {}
+
+    # Iterate over each character
     for character in characters:
         level = 0
+
+        # Iterate over each class of the character
         for cls in character.classes:
+            # Update class distribution
             if cls.name not in class_dict:
                 class_dict[cls.name] = 1
             else:
                 class_dict[cls.name] += 1
+
+            # Calculate total level of the character
             level += cls.lvl
+
+        # Update level distribution
         if level not in level_dict:
             level_dict[level] = 1
         else:
             level_dict[level] += 1
 
-    # Sorting the dicts to get a prettier output string
+    # Sort the dictionaries for a prettier output string
     level_dict = dict(sorted(level_dict.items()))
     class_dict = dict(sorted(class_dict.items()))
 
-    # Creating the output string
+    # Initialize the output string
     string = f"**ECCOTI LE STATISTICHE DEL SERVER**:\n " + \
-        f"Nel database sono state create **{len(characters)}** schede \n" + \
-        f"```\n{'-'*11}\n| LV | N° |\n"
+             f"Nel database sono state create **{len(characters)}** schede \n" + \
+             f"```\n{'-' * 11}\n| LV | N° |\n"
+
+    # Add level distribution to the output string
     for level in level_dict:
-        string += f"| {'0'+str(level) if level <= 9 else level} | {'0'+str(level_dict[level]) if level_dict[level] <= 9 else level_dict[level]} |\n"
-    string += f"{'-'*25}\n" + \
-        f"| CLASSE {' '*10}| N° |\n"
+        string += f"| {'0' + str(level) if level <= 9 else level} | {'0' + str(level_dict[level]) if level_dict[level] <= 9 else level_dict[level]} |\n"
+
+    # Add class distribution to the output string
+    string += f"{'-' * 25}\n" + \
+              f"| CLASSE {' ' * 10}| N° |\n"
 
     max_space = 16
     for cls in class_dict:
         space_after = 0
         if len(cls) < max_space:
             space_after = (max_space - len(cls))
-        string += f"| {cls}{' '*space_after} | {'0'+str(class_dict[cls]) if class_dict[cls] <= 9 else class_dict[cls]} |\n"
-    string += f"{'-'*25}```"
+        string += f"| {cls}{' ' * space_after} | {'0' + str(class_dict[cls]) if class_dict[cls] <= 9 else class_dict[cls]} |\n"
+
+    # Close the output string
+    string += f"{'-' * 25}```"
+
+    # Return the output string
     return string
+
+
+def get_server_levels() -> str:
+    """
+    Retrieves and formats a list of characters and their total levels.
+
+    Returns:
+    - str: A formatted string containing the character names and their total levels.
+           The levels are padded with a leading zero if they are single-digit numbers.
+
+    The function works by:
+    1. Fetching all characters from the database.
+    2. Initializing an empty string to store the result.
+    3. Iterating over each character, calculating their total level, and appending
+       the formatted string to the result.
+    4. Returning the final result string.
+    """
+    characters = db.load_all_character()  # Fetch all characters from the database
+    result = ""  # Initialize an empty string to store the result
+
+    # Iterate over each character
+    for character in characters:
+        level = 0  # Initialize the total level for the character
+
+        # Calculate the total level of the character by summing up the levels of all classes
+        for cls in character.classes:
+            level += cls.lvl
+
+        # Append the formatted string to the result
+        result += f"0{level if level <= 9 else level} -> {character.name}\n"
+
+    # Return the final result string
+    return result

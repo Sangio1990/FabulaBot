@@ -4,7 +4,7 @@ import lightbulb
 
 from db.utilsDB import UtilsDB
 from utils.cmdsLogic import roll
-from utils.utils import get_server_statistics
+from utils.utils import get_server_statistics, get_server_levels
 from view.pineappleview import PineappleView
 
 plugin = lightbulb.Plugin(name="Comandi Utente", description="Comandi disponibili a tutti gli utenti")
@@ -78,3 +78,10 @@ async def some_slash_command(ctx: lightbulb.SlashContext) -> None:
 @lightbulb.implements(lightbulb.SlashCommand)
 async def statistics(ctx: lightbulb.SlashContext) -> None:
     await ctx.respond(get_server_statistics())
+
+
+@plugin.command
+@lightbulb.command("livellogiocatori", "Lista dei personaggi e relativi livelli")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def level_statistics(ctx: lightbulb.SlashContext) -> None:
+    await ctx.respond(get_server_levels())
