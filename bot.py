@@ -25,7 +25,7 @@ bot = lightbulb.BotApp(
 )
 
 bot.load_extensions("cmds.userCommands", "cmds.adminCommands", "cmds.masterCommands", "cmds.playerCommands",
-                    "cmds.sessionscheduler")
+                    "cmds.sessionScheduler")
 
 bot.d.miru = miru.Client(bot)
 
