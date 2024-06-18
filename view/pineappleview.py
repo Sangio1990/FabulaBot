@@ -20,7 +20,7 @@ class YesButton(miru.Button):
         # You can access the view an item is attached to
         # by accessing it's view property
         self.view.answer = self.value
-        #self.view.stop()
+        # self.view.stop()
 
 
 class NoButton(miru.Button):
@@ -39,7 +39,6 @@ class NoButton(miru.Button):
 
 
 class PineappleView(miru.View):
-
     # Include our custom buttons.
     yes = YesButton()
     no = NoButton(style=hikari.ButtonStyle.DANGER)

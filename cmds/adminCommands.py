@@ -62,3 +62,11 @@ async def set_pv(ctx: lightbulb.SlashContext) -> None:
 async def backup(ctx: lightbulb.SlashContext) -> None:
     db.backup_db()
     await ctx.respond("Backup effettuato!")
+
+@plugin.command
+@lightbulb.option("nomepg", "Scrivi il nome del pg da cancellare")
+@lightbulb.command("eliminagiocatore", "Elimina la scheda di un giocatore")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def delete_character(ctx: lightbulb.SlashContext) -> None:
+    db.delete_character_with_char_name(ctx.options.nomepg)
+    await ctx.respond("Il personaggio è stato eliminato con successo!")

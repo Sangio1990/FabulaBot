@@ -1,4 +1,3 @@
-
 import lightbulb
 
 from db.utilsDB import UtilsDB
@@ -15,6 +14,7 @@ def load(bot: lightbulb.BotApp):
 
 def unload(bot: lightbulb.BotApp):
     bot.remove_plugin(plugin)
+
 
 @plugin.command
 @lightbulb.option("prova", "prova", type=str)

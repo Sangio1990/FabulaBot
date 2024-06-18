@@ -191,3 +191,18 @@ def get_server_levels() -> str:
 
     # Return the final result string
     return result
+
+
+def is_item_sellable(buyer, seller, item) -> str:
+    if not item.sellable:
+        return f"{buyer.mention} non puoi vendere {item.name} perché non è vendibile."
+    elif buyer.discord_id == seller.discord_id:
+        return f"https://tenor.com/hsCvL7Covmx.gif"
+    elif buyer.zenit < item.value:
+        return f"{buyer.mention} non ha abbastanza zenit per comprare {item.name}."
+
+    return "ok"
+
+
+def sell_to_player(buyer_id, seller_id, object) -> bool:
+    pass

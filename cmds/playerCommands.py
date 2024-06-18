@@ -1,10 +1,12 @@
 import lightbulb
 
+from classes.item import Item
 from secretsData.data import *
 from classes.character import check_doable, Character
 from db.utilsDB import UtilsDB
 from utils.cmdsLogic import multidice_roll
-from utils.utils import bool_ita
+from utils.utils import bool_ita, clear_id_from_mention, is_item_sellable
+from view.sellToPlayerView import SellToPlayerView
 
 plugin = lightbulb.Plugin(name="Comandi Giocatore", description="Comandi disponibili solo per i giocatori")
 plugin.add_checks(lightbulb.checks.has_roles(chosen_region[PLAYER_ROLE], chosen_region[ADMIN_ROLE], mode=any))
@@ -208,6 +210,7 @@ async def fabula_roll_command(ctx: lightbulb.SlashContext) -> None:
     result = f"Il tiro di {ctx.options.statistica1} e {ctx.options.statistica1} ha fatto {multidice_roll(char.get_stat(STATS[ctx.options.statistica1]), char.get_stat(STATS[ctx.options.statistica2]), ctx.options.modificatore)}"
     await ctx.respond(result)
 
+
 @plugin.command
 @lightbulb.option("nomeoggetto", "Di che oggetto nel tuo inventario vuoi saperne di più?", type=str, required=True)
 @lightbulb.command("infooggetto", "Vedi maggiori informazioni di un oggetto che possiedi")
@@ -216,3 +219,40 @@ async def info_item_cmd(ctx: lightbulb.SlashContext) -> None:
     char = db.load_character(ctx.user.id)
     result = char.info_item(ctx.options.nomeoggetto)
     await ctx.respond(result)
+
+
+@plugin.command()
+@lightbulb.option("nomeoggetto", "Che oggetto vuoi vendere?", type=str, required=True)
+@lightbulb.option("prezzo", "A quanto lo vuoi vendere?", type=int, required=True)
+@lightbulb.option("menzione", "Menzione il giocatore a cui vuoi vendere l'oggetto", type=str, required=True)
+@lightbulb.command("vendiagiocatore", "Vendi un oggetto ad un altro giocatore", auto_defer=False)
+@lightbulb.implements(lightbulb.SlashCommand)
+async def sell_to_player_command(ctx: lightbulb.SlashContext) -> None:
+    mentioned_id = clear_id_from_mention(ctx.options.menzione)
+
+    # Getting the basic info to do the transaction
+    seller_char: Character = db.load_character(ctx.user.id)
+    buyer_char: Character = db.load_character(mentioned_id)
+    item: Item = next(
+        (item for item in seller_char.inventory if item.name.lower() == ctx.options.nomeoggetto.lower()), None)
+
+    # Error message in case of item not found
+    if item is None:
+        await ctx.respond(f"{ctx.options.nomeoggetto} non è presente nel tuo inventario.\n"
+                          f"Assicurati di aver scritto l'oggetto correttamente, /datipg per vedere il tuo inventario")
+        return
+
+    # Checking if item is sellable
+    result = is_item_sellable(seller_char, buyer_char, item)
+    if result != "ok":
+        await ctx.respond(result)
+        return
+
+    # Creating the view for selling the item
+    view = SellToPlayerView(seller=seller_char, buyer=buyer_char, item=item)
+    question = f"{ctx.options.menzione} Vuoi comprare {ctx.options.nomeoggetto} a {ctx.options.prezzo} zenit?"
+    await ctx.respond(question, components=view)
+    ctx.app.d.miru.start_view(view)
+
+    # You can also wait until the view is stopped or times out
+    await view.wait()

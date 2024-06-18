@@ -117,10 +117,11 @@ populate_rewards_table = """INSERT INTO rewards_table
 
 
 # Delete Query
-def delete_character_query_builder(user_id):
+def delete_character_query_builder(user_id, column="discord_id"):
+    value = user_id if user_id is int else f"'{user_id}'"
     return f"""
             DELETE FROM characters
-            WHERE discord_id={user_id}
+            WHERE {column}={value}
                 """
 
 
@@ -160,6 +161,18 @@ move_character_to_trash_query = """
 load_all_characters_query = """
     SELECT * FROM characters  
 """
+
+
+def build_move_character_to_trash_query(column_name):
+    return f"""
+    INSERT INTO Characters_thrash (discord_id, name, dex, vig, intu, will, hp, mp, ip, xp, fp, zenit, 
+            classes, inventory, traits, bonds) 
+    SELECT discord_id, name, dex, vig, intu, will, hp, mp, ip, xp, fp, zenit, 
+            classes, inventory, traits, bonds
+    FROM characters
+    WHERE {column_name} = ?;
+    """
+
 
 # Loading Query
 def load_character_query_builder(user_id):

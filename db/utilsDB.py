@@ -215,31 +215,20 @@ class UtilsDB:
         Finally, it commits the changes to the database.
         If no character is found with the given user ID, it raises a NoCharFound exception.
         """
-        character = self.load_character(user_id)
-        character.classes = json.dumps([cls.to_json() for cls in character.classes])
-        character.bonds = json.dumps([bond.to_json() for bond in character.bonds])
-        character.inventory = json.dumps([item.to_json() for item in character.inventory])
+        self.load_character(user_id)
 
-        self.c.execute(move_character_to_trash_query, (
-            character.discord_id,
-            character.name,
-            character.dex,
-            character.vig,
-            character.intu,
-            character.will,
-            character.hp,
-            character.mp,
-            character.ip,
-            character.xp,
-            character.fp,
-            character.zenit,
-            character.classes,
-            character.inventory,
-            character.traits,
-            character.bonds
-        ))
+        self.c.execute(build_move_character_to_trash_query("discord_id"), (user_id,))
         self.c.execute(delete_character_query_builder(user_id))
         self.connection.commit()
+
+    def delete_character_with_char_name(self, char_name: str):
+        try:
+            self.c.execute(build_move_character_to_trash_query("name"), (char_name,))
+            self.c.execute(delete_character_query_builder(char_name, column="name"))
+            self.connection.commit()
+        except Exception as e:
+            print(f"Error deleting character: {e}")
+            raise NoCharFound(no_char_found)
 
     def backup_db(self):
         try:
