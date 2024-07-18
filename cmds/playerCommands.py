@@ -135,6 +135,9 @@ async def add_bonus(ctx: lightbulb.SlashContext) -> None:
                                     "ASSICURATI DI AVER AVVISATO UN MASTER DI QUESTO ACQUISTO!")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def buy_item(ctx: lightbulb.SlashContext) -> None:
+    if ctx.options.prezzo < 0:
+        await ctx.respond("Non credo qualcuno voglia pagarti per prendere un oggetto!")
+        return
     char = db.load_character(ctx.user.id)
     result = char.buy_item(ctx.options.oggetto, ctx.options.descrizione, ctx.options.prezzo)
     db.save_character(char, ctx.user.id)
@@ -193,6 +196,12 @@ async def traits(ctx: lightbulb.SlashContext) -> None:
 @lightbulb.command("comprapi", "Compra PI")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def buy_pi(ctx: lightbulb.SlashContext) -> None:
+    if ctx.options.pi < 0:
+        await ctx.respond("Non puoi comprare PI negativi!")
+        return
+    elif ctx.options.pi == 0:
+        await ctx.respond("Eccoti 0PI! Mi devi 0 Zenith!")
+        return
     char = db.load_character(ctx.user.id)
     result = char.buy_ip(ctx.options.pi)
     db.save_character(char, ctx.user.id)
