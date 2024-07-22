@@ -192,7 +192,7 @@ async def traits(ctx: lightbulb.SlashContext) -> None:
 
 
 @plugin.command
-@lightbulb.option("pi", "Quanti PI devi cokmpare?", type=int, required=True)
+@lightbulb.option("pi", "Quanti PI devi compare?", type=int, required=True)
 @lightbulb.command("comprapi", "Compra PI")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def buy_pi(ctx: lightbulb.SlashContext) -> None:
