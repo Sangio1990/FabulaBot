@@ -4,8 +4,9 @@ GUILD = "guild"
 PLAYER_ROLE = "player_role"
 MASTER_ROLE = "master_role"
 ADMIN_ROLE = "admin_role"
-CLASSES = ["Arcanista", "Artefice", "Canaglia", "Chimerista", "Elementalista", "Entropista", "Furia", "Guardiano",
-           "Lama Oscura", "Maestro d'Armi", "Oratore", "Sapiente", "Spiritista", "Tiratore", "Viandante"]
+CLASSES = ["Arcanista", "Artefice", "Canaglia", "Cantore", "Chimerista", "Comandante", "Danzatore", "Elementalista",
+           "Entropista", "Floralista", "Furia", "Gourmet", "Guardiano", "Invocatore", "Lama Oscura", "Maestro d'Armi",
+           "Mercante", "Oratore", "Sapiente", "Simbolista", "Spiritista", "Tiratore", "Viandante"]
 
 STATS = {"Vigore": "vig", "Intuito": "intu", "Volontà": "will", "Destrezza": "dex"}
 BOOL_ITA = ["si", "no"]

@@ -167,8 +167,9 @@ async def reward(ctx: lightbulb.SlashContext) -> None:
                     char.add_item(material)
                     response += f"Il {i}° dado ha fatto {r[0]} quindi riceve un {material.name}\n"
             db.save_character(char, mentioned_id)
-            await ctx.bot.rest.create_message(ctx.get_channel(), response+"```\n\n")
-    await ctx.bot.rest.create_message(ctx.get_channel(),"**Fine**")
+            await ctx.bot.rest.create_message(ctx.get_channel(), response + "```\n\n")
+    await ctx.bot.rest.create_message(ctx.get_channel(), "**Fine**")
+
 
 @plugin.command
 @lightbulb.option("nomeoggetto", "Scrivi il nome dell'oggetto che vuoi vedere")
