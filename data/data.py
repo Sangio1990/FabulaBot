@@ -1,11 +1,15 @@
+import json
+# Carica il JSON dal file
+with open('data/classes.json', 'r', encoding='utf-8') as file:
+    cls_json = json.load(file)
+
 # Constants
 TOKEN = "token"
 GUILD = "guild"
 PLAYER_ROLE = "player_role"
 MASTER_ROLE = "master_role"
 ADMIN_ROLE = "admin_role"
-CLASSES = ["Arcanista", "Artefice", "Canaglia", "Chimerista", "Elementalista", "Entropista", "Furia", "Guardiano",
-           "Lama Oscura", "Maestro d'Armi", "Oratore", "Sapiente", "Spiritista", "Tiratore", "Viandante"]
+CLASSES = list(cls_json.keys())
 
 STATS = {"Vigore": "vig", "Intuito": "intu", "Volontà": "will", "Destrezza": "dex"}
 BOOL_ITA = ["si", "no"]

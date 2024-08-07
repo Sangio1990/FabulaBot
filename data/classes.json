@@ -1,0 +1,417 @@
+{
+  "Arcanista": {
+    "bonus": "pm",
+    "proficiencies": [],
+    "abilities": {
+      "Arcanismo Rituale": [
+        1,
+        "true"
+      ],
+      "Arcanum di Emergenza": [
+        6,
+        "false"
+      ],
+      "Cerchio Arcano": [
+        4,
+        "false"
+      ],
+      "Rigenerazione Arcana": [
+        2,
+        "false"
+      ],
+      "Vincola ed Evoca": [
+        1,
+        "false"
+      ]
+    }
+  },
+  "Artefice": {
+    "bonus": "pi",
+    "proficiencies": [
+      "Progetti"
+    ],
+    "abilities": {
+      "Formula Segreta": [
+        5,
+        "false"
+      ],
+      "Oggetto di Emergenza": [
+        1,
+        "false"
+      ],
+      "Pioggia di Pozioni": [
+        2,
+        "false"
+      ],
+      "Tecnologie": [
+        5,
+        "false"
+      ],
+      "Visionario": [
+        5,
+        "false"
+      ]
+    }
+  },
+  "Canaglia": {
+    "bonus": "pi",
+    "proficiencies": [],
+    "abilities": {
+      "Alta Velocità": [
+        3,
+        "false"
+      ],
+      "Ci si vede!": [
+        1,
+        "false"
+      ],
+      "Colpo Basso": [
+        5,
+        "false"
+      ],
+      "Rubaspirito": [
+        5,
+        "false"
+      ],
+      "Schivata": [
+        3,
+        "false"
+      ]
+    }
+  },
+  "Chimerista": {
+    "bonus": "pm",
+    "proficiencies": [
+      "Ritualismo"
+    ],
+    "abilities": {
+      "Chimerismo Rituale": [
+        1,
+        "True"
+      ],
+      "Divorare": [
+        5,
+        "false"
+      ],
+      "Magimimesi": [
+        10,
+        "false"
+      ],
+      "Patogenesi": [
+        1,
+        "false"
+      ],
+      "Voce Ferale": [
+        1,
+        "false"
+      ]
+    }
+  },
+  "Elementalista": {
+    "bonus": "pm",
+    "proficiencies": [
+      "Ritualismo"
+    ],
+    "abilities": {
+      "Artiglieria Magica": [
+        3,
+        "false"
+      ],
+      "Cataclisma": [
+        3,
+        "false"
+      ],
+      "Elementalismo Rituale": [
+        1,
+        "true"
+      ],
+      "Incantalame": [
+        4,
+        "false"
+      ],
+      "Magia Elementale": [
+        10,
+        "false"
+      ]
+    }
+  },
+  "Entropista": {
+    "bonus": "pm",
+    "proficiencies": [
+      "Ritualismo"
+    ],
+    "abilities": {
+      "Assorbimente": [
+        5,
+        "false"
+      ],
+      "Entropisma Rituale": [
+        1,
+        "true"
+      ],
+      "Magia Entropica": [
+        10,
+        "false"
+      ],
+      "Settebello": [
+        1,
+        "false"
+      ],
+      "Rubatempo": [
+        4,
+        "false"
+      ]
+    }
+  },
+  "Furia": {
+    "bonus": "hp",
+    "proficiencies": [
+      "Armi da mischia marziali",
+      "Armature marziali"
+    ],
+    "abilities": {
+      "Adrenalina": [
+        5,
+        "false"
+      ],
+      "Frenesia": [
+        1,
+        "false"
+      ],
+      "Provocazione": [
+        5,
+        "false"
+      ],
+      "Sopportazione": [
+        5,
+        "false"
+      ],
+      "Spirito Indomabile": [
+        4,
+        "false"
+      ]
+    }
+  },
+  "Guardiano": {
+    "bonus": "hp",
+    "proficiencies": [
+      "Armature Marziali",
+      "Scudi Marziali"
+    ],
+    "abilities": {
+      "Doppio Scudo": [
+        1,
+        "false"
+      ],
+      "Fortezza": [
+        5,
+        "true"
+      ],
+      "Guardia del Corpo": [
+        1,
+        "false"
+      ],
+      "Maestria Difensiva": [
+        5,
+        "false"
+      ],
+      "Protezione": [
+        1,
+        "false"
+      ]
+    }
+  },
+  "Lama Oscura": {
+    "bonus": "hp",
+    "proficiencies": [
+      "Armi da mischia marziali",
+      "Armature marziali"
+    ],
+    "abilities": {
+      "Agonia": [
+        5,
+        "false"
+      ],
+      "Cuore di Tenebra": [
+        1,
+        "false"
+      ],
+      "Fendente Oscuro": [
+        5,
+        "false"
+      ],
+      "Lezione Oscura": [
+        3,
+        "false"
+      ],
+      "Sangue Nero": [
+        1,
+        "false"
+      ]
+    }
+  },
+  "Maestro d'Armi": {
+    "bonus": "hp",
+    "proficiencies": [
+      "Armi da mischia marziali",
+      "Scudi marziali"
+    ],
+    "abilities": {
+      "Breccia": [
+        3,
+        "false"
+      ],
+      "Contrattacco": [
+        1,
+        "false"
+      ],
+      "Maestria Armi da Mischia": [
+        4,
+        "false"
+      ],
+      "Spezzaossa": [
+        4,
+        "false"
+      ],
+      "Tempesta di Lame": [
+        1,
+        "false"
+      ]
+    }
+  },
+  "Oratore": {
+    "bonus": "pm",
+    "proficiencies": [],
+    "abilities": {
+      "Alleato Inaspettato": [
+        1,
+        "false"
+      ],
+      "Condanna": [
+        4,
+        "false"
+      ],
+      "Incoraggiamento": [
+        6,
+        "false"
+      ],
+      "Mi Fido di Te": [
+        2,
+        "false"
+      ],
+      "Persuasione": [
+        2,
+        "false"
+      ]
+    }
+  },
+  "Sapiente": {
+    "bonus": "pm",
+    "proficiencies": [],
+    "abilities": {
+      "Concentrazioe": [
+        5,
+        "false"
+      ],
+      "Intuizione Fulminea": [
+        3,
+        "false"
+      ],
+      "Memoria Allenata": [
+        1,
+        "false"
+      ],
+      "Sapere e Potere": [
+        1,
+        "false"
+      ],
+      "Valutazione Rapida": [
+        6,
+        "false"
+      ]
+    }
+  },
+  "Spiritista": {
+    "bonus": "pm",
+    "proficiencies": [
+      "Ritualismo"
+    ],
+    "abilities": {
+      "Magia Spirituale": [
+        10,
+        "false"
+      ],
+      "Magia di Supporto": [
+        1,
+        "false"
+      ],
+      "Potere Curativo": [
+        2,
+        "false"
+      ],
+      "Spiritismo Rituale": [
+        1,
+        "true"
+      ],
+      "Vismagus": [
+        1,
+        "false"
+      ]
+    }
+  },
+  "Tiratore": {
+    "bonus": "pv",
+    "proficiencies": [
+      "Armi a distanza marziale",
+      "Scudi marziali"
+    ],
+    "abilities": {
+      "Colpo di Avvertimento": [
+        4,
+        "false"
+      ],
+      "Fuoco Incrociato": [
+        1,
+        "false"
+      ],
+      "Maestria con Armi a Distanza": [
+        4,
+        "false"
+      ],
+      "Occhio di Falco": [
+        5,
+        "false"
+      ],
+      "Raffica": [
+        1,
+        "false"
+      ]
+    }
+  },
+  "Viandante": {
+    "bonus": "pi",
+    "proficiencies": [],
+    "abilities": {
+      "Cacciatesori": [
+        2,
+        "false"
+      ],
+      "Chiacchiere da Taverna": [
+        3,
+        "false"
+      ],
+      "Compagno Fedele": [
+        5,
+        "false"
+      ],
+      "Giramondo": [
+        1,
+        "false"
+      ],
+      "Intraprendente": [
+        4,
+        "false"
+      ]
+    }
+  }
+}

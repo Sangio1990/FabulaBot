@@ -5,6 +5,7 @@ import lightbulb
 from db.utilsDB import UtilsDB
 from utils.cmdsLogic import roll
 from utils.utils import get_server_statistics, get_server_levels
+from view.LevelUpView import LevelUpView
 from view.pineappleview import PineappleView
 
 plugin = lightbulb.Plugin(name="Comandi Utente", description="Comandi disponibili a tutti gli utenti")
@@ -71,6 +72,22 @@ async def some_slash_command(ctx: lightbulb.SlashContext) -> None:
         print(f"Received an answer! It is: {view.answer}")
     else:
         print("Did not receive an answer in time!")
+
+@plugin.command
+@lightbulb.command("testlevelup", "test nuovo level up")
+@lightbulb.implements(lightbulb.SlashCommand)
+async def print_character(ctx: lightbulb.SlashContext) -> None:
+    view = LevelUpView()
+
+    await ctx.respond("Pronto per fare aumentare di livello?", components=view)
+
+    ctx.app.d.miru.start_view(view)
+
+    await view.wait()
+
+    if view.answer is not None:
+        print(f"Received an answer! It is: {view.answer}")
+
 
 
 @plugin.command
