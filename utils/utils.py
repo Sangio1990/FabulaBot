@@ -176,7 +176,7 @@ def get_server_levels() -> str:
     4. Returning the final result string.
     """
     characters = db.load_all_character()  # Fetch all characters from the database
-    result = ""  # Initialize an empty string to store the result
+    result = "```"  # Initialize an empty string to store the result
 
     # Iterate over each character
     for character in characters:
@@ -187,10 +187,10 @@ def get_server_levels() -> str:
             level += cls.lvl
 
         # Append the formatted string to the result
-        result += f"0{level if level <= 9 else level} -> {character.name}\n"
+        result += f"{('0' + level.__str__()) if level <= 9 else level} -> {character.name}\n"
 
     # Return the final result string
-    return result
+    return result+'```'
 
 
 def is_item_sellable(buyer, seller, item) -> str:
