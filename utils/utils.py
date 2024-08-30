@@ -160,6 +160,21 @@ def get_server_statistics() -> str:
     return string
 
 
+def get_character_level(char) -> int:
+    """
+    Retrieve and return the level of a character in the database.
+
+    Returns:
+    - int: The total level of a character in the database.
+    """
+    total_level = 0  # Initialize the total level
+
+    # Calculate the total level of the character by summing up the levels of all classes
+    total_level += sum(cls.lvl for cls in char.classes)
+
+    return total_level  # Return the total level of a char in the database
+
+
 def get_server_levels() -> str:
     """
     Retrieves and formats a list of characters and their total levels.
@@ -178,6 +193,8 @@ def get_server_levels() -> str:
     characters = db.load_all_character()  # Fetch all characters from the database
     result = "```"  # Initialize an empty string to store the result
 
+    characters.sort(key=lambda char: get_character_level(char))
+
     # Iterate over each character
     for character in characters:
         level = 0  # Initialize the total level for the character
@@ -190,7 +207,7 @@ def get_server_levels() -> str:
         result += f"{('0' + level.__str__()) if level <= 9 else level} -> {character.name}\n"
 
     # Return the final result string
-    return result+'```'
+    return result + '```'
 
 
 def is_item_sellable(buyer, seller, item) -> str:
