@@ -222,13 +222,21 @@ class UtilsDB:
         self.connection.commit()
 
     def delete_character_with_char_name(self, char_name: str):
+        error = ""
         try:
             self.c.execute(build_move_character_to_trash_query("name"), (char_name,))
+
+            # Verifica se è stata trovata una riga corrispondente
+            if self.c.rowcount == 0:
+                error = f"Nessun personaggio trovato con il nome '{char_name}'."
+                raise NoCharFound("Char not found")
+
             self.c.execute(delete_character_query_builder(column="name"), (char_name, ))
             self.connection.commit()
         except Exception as e:
             print(f"Error deleting character: {e}")
-            raise NoCharFound(no_char_found)
+            print(no_char_found if error == "" else error)
+            raise NoCharFound(no_char_found if error == "" else error)
 
     def backup_db(self):
         try:

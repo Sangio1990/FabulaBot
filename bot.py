@@ -49,7 +49,8 @@ async def on_command_error(event: lightbulb.CommandErrorEvent) -> None:
     If the exception is of any other type, it prints the exception and its information and responds with a generic error message.
     """
     if isinstance(event.exception, NoCharFound):
-        await event.context.respond(no_char_found)
+        error = event.exception.__str__()
+        await event.context.respond(no_char_found if error == "" else error)
     elif isinstance(event.exception, NoDataFound):
         await event.context.respond(no_data_found)
     elif isinstance(event.exception, lightbulb.errors.MissingRequiredRole):
