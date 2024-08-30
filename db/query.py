@@ -117,12 +117,17 @@ populate_rewards_table = """INSERT INTO rewards_table
 
 
 # Delete Query
-def delete_character_query_builder(user_id, column="discord_id"):
-    value = user_id if user_id is int else f"'{user_id}'"
-    return f"""
-            DELETE FROM characters
-            WHERE {column}={value}
-                """
+def delete_character_query_builder(column="discord_id"):
+    """
+    Costruisce la query SQL per cancellare un personaggio basato su una colonna specifica.
+
+    Args:
+    - column (str): Il nome della colonna su cui basare la cancellazione (default: "discord_id").
+
+    Returns:
+    - str: La query SQL con un segnaposto per il valore.
+    """
+    return f"DELETE FROM characters WHERE {column} = ?"
 
 
 # Saving Query

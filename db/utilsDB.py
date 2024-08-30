@@ -218,13 +218,13 @@ class UtilsDB:
         self.load_character(user_id)
 
         self.c.execute(build_move_character_to_trash_query("discord_id"), (user_id,))
-        self.c.execute(delete_character_query_builder(user_id))
+        self.c.execute(delete_character_query_builder(), (user_id,))
         self.connection.commit()
 
     def delete_character_with_char_name(self, char_name: str):
         try:
             self.c.execute(build_move_character_to_trash_query("name"), (char_name,))
-            self.c.execute(delete_character_query_builder(char_name, column="name"))
+            self.c.execute(delete_character_query_builder(column="name"), (char_name, ))
             self.connection.commit()
         except Exception as e:
             print(f"Error deleting character: {e}")
