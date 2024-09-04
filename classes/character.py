@@ -159,7 +159,7 @@ class Character:
                 bond.description = bond_description
                 bond.level = bond_level
                 return f"Legame con {bond_name} aggiornato con successo!."
-        if self.bonds.__len__() < 6:
+        if self.bonds.__len__() < 10:
             self.bonds.append(Bond(bond_name, bond_description, bond_level))
             return f"Legame con {bond_name} aggiunto con successo!."
         return "Hai raggiunto il limite massimo di legami."
