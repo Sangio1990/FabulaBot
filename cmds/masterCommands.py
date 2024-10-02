@@ -134,13 +134,14 @@ async def add_exp(ctx: lightbulb.SlashContext) -> None:
 @plugin.command
 @lightbulb.option("giocatore5", "Menziona il quinto giocatore", type=str, required=False)
 @lightbulb.option("giocatore4", "Menziona il quarto giocatore", type=str, required=False)
-@lightbulb.option("giocatore3", "Menziona il terzo giocatore", type=str, required=True)
-@lightbulb.option("giocatore2", "Menziona il secondo giocatore", type=str, required=True)
+@lightbulb.option("giocatore3", "Menziona il terzo giocatore", type=str, required=False)
+@lightbulb.option("giocatore2", "Menziona il secondo giocatore", type=str, required=False)
 @lightbulb.option("giocatore1", "Menziona il primo giocatore", type=str, required=True)
 @lightbulb.option("xp", "Quanti punti esperienza han guadagnato i tuoi giocatori?", type=int, required=True)
 @lightbulb.command("reward", "Assegna i reward di fine sessione")
 @lightbulb.implements(lightbulb.SlashCommand)
 async def reward(ctx: lightbulb.SlashContext) -> None:
+    await ctx.respond("**Calcolo i reward:**")
     xp = ctx.options.xp
     for i in range(1, 6):
         user_option = getattr(ctx.options, f'giocatore{i}')
