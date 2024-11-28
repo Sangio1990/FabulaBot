@@ -108,11 +108,11 @@ populate_rewards_table = """INSERT INTO rewards_table
                         ("rank",zenit,materials_rolls,no_material,common_material,rare_material,epic_material,legendary_material) 
                         VALUES
                          ('apprendista',0,0,0,0,0,0,0),
-                         ('stella nascente',250,2,1,2,30,30,30),
-                         ('cavaliere valoroso',400,4,1,2,17,30,30),
-                         ('protettore epico',500,6,1,3,12,17,30),
-                         ('campione leggendario',800,8,1,5,9,15,20),
-                         ('eroe mitico',1000,10,1,4,7,14,19);
+                         ('stella nascente',125,1,1,2,30,30,30),
+                         ('cavaliere valoroso',200,2,1,2,17,30,30),
+                         ('protettore epico',250,3,1,3,12,17,30),
+                         ('campione leggendario',400,4,1,5,9,15,20),
+                         ('eroe mitico',500,5,1,4,7,14,19);
                     """
 
 
