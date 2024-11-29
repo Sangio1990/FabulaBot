@@ -45,8 +45,8 @@ class Item:
 
 
 material_table = {
-    "common": Item("Materiale comune", "Materiale usabile per craftare del valore di 50 zenit.", 50, 1, False),
-    "rare": Item("Materiale raro", "Materiale usabile per craftare del valore di 150 zenit.", 150, 1, False),
-    "epic": Item("Materiale epico", "Materiale usabile per craftare del valore di 250 zenit.", 250, 1, False),
-    "legendary": Item("Materiale legendario", "Materiale usabile per craftare del valore di 500 zenit.", 500, 1, False),
+    "common": Item("Materiale comune", "Materiale usabile per craftare del valore di 50 zenit.", 50, 1, True),
+    "rare": Item("Materiale raro", "Materiale usabile per craftare del valore di 150 zenit.", 150, 1, True),
+    "epic": Item("Materiale epico", "Materiale usabile per craftare del valore di 400 zenit.", 450, 1, True),
+    "legendary": Item("Materiale legendario", "Materiale usabile per craftare del valore di 500 zenit.", 1000, 1, True),
 }

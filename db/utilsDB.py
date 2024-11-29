@@ -3,6 +3,7 @@ import importlib
 import json
 import os
 import shutil
+import sqlite3
 import typing as t
 from sqlite3 import Connection
 
@@ -269,3 +270,30 @@ class UtilsDB:
             character = c.Character(*result)
             characters.append(character)
         return characters
+
+
+    def change_all_material_to_sellable(self):
+        c = importlib.import_module("classes.character")
+        try:
+            self.c.execute(load_all_characters_query)
+        except Exception as e:
+            print(e)
+            raise NoCharFound(no_char_found)
+
+        result = self.c.fetchall()
+
+        for data in result:
+            char = c.Character(*data)
+            id = char.discord_id
+            print("-"*25 +"\n" + char.name)
+            for item in char.inventory:
+                if item.name == "Materiale epico":
+                    item.value = 450
+                    print(f"Material: {item.name}")
+            db.save_character(char, id)
+
+
+if __name__ == "__main__":
+    db = UtilsDB()
+    db.init_db(connection=sqlite3.connect("Iridis.db"))
+    db.change_all_material_to_sellable()
